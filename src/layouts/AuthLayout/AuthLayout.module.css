@@ -1,0 +1,60 @@
+.container {
+  display: flex;
+  max-height: 90vh;
+}
+
+.container > div {
+  flex-basis: 339px;
+}
+
+.container > div > img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.container > form {
+  flex: 1;
+  background-color: var(--white);
+}
+
+.container > div > h4 {
+  font-family: General Sans;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 68px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 2rem;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    max-height: 90vh;
+    min-width: 90vw;
+  }
+
+  .container > div {
+    flex-basis: 339px;
+    display: none;
+  }
+
+  .container > div > img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .container > form {
+    flex: 1;
+    background-color: var(--white);
+  }
+
+  .container > div > h4 {
+    font-family: General Sans;
+    font-size: 32px;
+    line-height: 140%;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,0 +1,37 @@
+.container {
+  height: 100svh;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.container > section {
+  flex: 1;
+  padding: 0;
+  height: 100svh;
+}
+
+.container > section > header {
+  position: sticky;
+  top: 0;
+}
+
+.container > section > section:nth-child(2) {
+  height: calc(100svh - var(--headerHeight));
+  overflow-y: auto;
+}
+
+.container > section > header {
+  padding-inline: 1rem;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    padding-block: 0px;
+    padding-inline: 0px;
+  }
+
+  .container > section {
+    min-height: calc(100vh - var(--headerHeight));
+  }
+}

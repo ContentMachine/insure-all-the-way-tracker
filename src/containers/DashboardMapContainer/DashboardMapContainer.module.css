@@ -1,0 +1,9 @@
+.container {
+  height: calc(100svh - var(--headerHeight));
+  padding: 0;
+}
+
+.container > div {
+  width: 100%;
+  height: 100%;
+}

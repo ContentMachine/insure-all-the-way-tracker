@@ -1,0 +1,67 @@
+.container {
+  padding: 1rem;
+  flex-basis: 250px;
+  transition: all 0.2s ease-in-out;
+  border-right: 1px solid var(--grey);
+}
+
+.container > a {
+  margin-bottom: 3rem;
+  width: 90px;
+  animation: appear 0.2s ease-in-out;
+}
+
+.visible {
+  transition: all 0.2s ease-in-out;
+}
+
+.inVisible {
+  visibility: hidden;
+  width: 0px;
+  animation: appear 0.2s ease-in-out;
+}
+
+.container > ul {
+  list-style-type: none;
+  animation: appear 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+}
+
+.container > ul > li > a,
+.logout {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.container > ul > li > a:hover,
+.logout:hover,
+.active {
+  background-color: var(--grey);
+}
+
+.container > ul > li > a > span,
+.logout > span {
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -1px;
+  flex-basis: 100%;
+}
+
+.logout {
+  margin-top: 5rem;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
