@@ -1,4 +1,6 @@
+import Car from "@/assets/svgIcons/Car";
 import Dashboard from "@/assets/svgIcons/Dashboard";
+import File from "@/assets/svgIcons/File";
 import Profile from "@/assets/svgIcons/Profile";
 import Settings from "@/assets/svgIcons/Settings";
 import Video from "@/assets/svgIcons/Video";
@@ -12,6 +14,8 @@ export const routes = Object.freeze({
   USERS: "/users",
   CLAIMS: "/claims",
   LEADS: "/leads",
+  REPORT: "/reports",
+  DEVICES: "/devices",
 });
 
 export const dashboardRoutes = [
@@ -22,21 +26,15 @@ export const dashboardRoutes = [
     icon: <Dashboard />,
   },
   {
-    title: "Video",
-    route: routes.LEADS,
+    title: "Devices",
+    route: routes.DEVICES,
     properties: ["isProtected"],
-    icon: <Video />,
+    icon: <Car />,
   },
   {
-    title: "Settings",
-    route: routes.POLICIES,
+    title: "Reports",
+    route: routes.REPORT,
     properties: ["isProtected"],
-    icon: <Settings />,
-  },
-  {
-    title: "Profile",
-    route: routes.POLICIES,
-    properties: ["isProtected"],
-    icon: <Profile />,
+    icon: <File />,
   },
 ];

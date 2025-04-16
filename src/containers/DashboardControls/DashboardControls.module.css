@@ -83,7 +83,7 @@
 
 .moreOptions {
   width: 200px;
-  min-height: 200px;
+  min-height: 100px;
   position: absolute;
   top: 100%;
   left: 90%;
@@ -111,4 +111,8 @@
 
 .moreOptions > span:hover {
   background-color: var(--grey);
+}
+
+.alert {
+  color: var(--red);
 }

@@ -1,9 +1,13 @@
 import More from "@/assets/svgIcons/More";
-import classes from "../DashboardControls/DashboardControls.module.css";
+import classes from "../../containers/DashboardControls/DashboardControls.module.css";
 import { useEffect, useRef, useState } from "react";
 
 type VehicleRowType = {
-  options: { title: string; onClick: (row?: unknown) => void }[];
+  options: {
+    title: string;
+    onClick: (row?: unknown) => void;
+    properties?: string[];
+  }[];
 };
 
 const VehicleRow = ({ options }: VehicleRowType) => {
@@ -43,7 +47,16 @@ const VehicleRow = ({ options }: VehicleRowType) => {
         <div className={classes.moreOptions} ref={optionsRef}>
           {options?.map((data) => {
             return (
-              <span onClick={() => data?.onClick(data)}>{data?.title}</span>
+              <span
+                onClick={() => data?.onClick(data)}
+                className={
+                  data?.properties?.includes("isAlert")
+                    ? classes.alert
+                    : undefined
+                }
+              >
+                {data?.title}
+              </span>
             );
           })}
         </div>

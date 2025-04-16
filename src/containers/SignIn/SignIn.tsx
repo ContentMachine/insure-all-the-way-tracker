@@ -67,8 +67,11 @@ const SignIn = () => {
     <AuthLayout>
       <form className={classes.container}>
         <Logo />
-        <h4>Welcome back, Agent</h4>
-        <p>Securely Sign In to Manage Your Leads and Conversions</p>
+        <h4>Welcome back!</h4>
+        <p>
+          Sign in securely to check your devices and give you full remote
+          control.
+        </p>
         <Input
           label="Email"
           isRequired

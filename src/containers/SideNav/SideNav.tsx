@@ -14,28 +14,30 @@ const Sidenav = ({ onClose }: SidenavTypes) => {
   const pathname = usePathname();
 
   return (
-    <section className={classes.container}>
-      <div>
-        <Close onClick={onClose} />
-      </div>
-      <nav>
-        {dashboardRoutes?.map((route, i) => {
-          return (
-            <Link
-              key={i}
-              href={route?.route}
-              className={
-                pathname.includes(route?.route)
-                  ? classes.active
-                  : classes.inActive
-              }
-            >
-              {route?.title}
-            </Link>
-          );
-        })}
-      </nav>
-    </section>
+    <>
+      <section className={classes.container}>
+        <div>
+          <Close onClick={onClose} />
+        </div>
+        <nav>
+          {dashboardRoutes?.map((route, i) => {
+            return (
+              <Link
+                key={i}
+                href={route?.route}
+                className={
+                  pathname.includes(route?.route)
+                    ? classes.active
+                    : classes.inActive
+                }
+              >
+                {route?.title}
+              </Link>
+            );
+          })}
+        </nav>
+      </section>
+    </>
   );
 };
 

@@ -26,7 +26,7 @@ const GreetingComponent = () => {
     <div>
       <section className={classes.container}>
         {getCurrentHours()}
-        <h4>{capitalize(user?.firstName as string)}</h4>
+        <h4>{capitalize((user?.firstName as string) || "User")}</h4>
       </section>
     </div>
   );
