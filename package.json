@@ -20,7 +20,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0-rc.2",
-    "styled-components": "^6.1.17"
+    "styled-components": "^6.1.17",
+    "swr": "^2.3.3"
   },
   "devDependencies": {
     "@types/leaflet": "^1.9.17",

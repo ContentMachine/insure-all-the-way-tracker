@@ -12,6 +12,9 @@ const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "http://localhost:3001",
+    "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE",
+    "Access-Control-Max-Age": 86400,
   },
 });
 
@@ -23,7 +26,11 @@ axiosInstance.interceptors.request.use((axiosConfig) => {
     throw new Error("Please check your internet connection");
   }
 
-  axiosConfig.headers.Authorization = `Bearer ${getToken()}`;
+  const token = getToken();
+
+  if (token) {
+    axiosConfig.headers.Authorization = `Bearer ${token}`;
+  }
 
   return axiosConfig;
 });

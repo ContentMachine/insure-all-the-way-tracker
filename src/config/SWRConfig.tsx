@@ -20,7 +20,6 @@ type Fetcher = (
 const fetcher: Fetcher = async (url, config) => {
   const headers = {
     ...config?.headers,
-    Authorization: `Bearer`,
   };
 
   return axiosInstance.get(url, { ...config, headers }).then((res) => res);
