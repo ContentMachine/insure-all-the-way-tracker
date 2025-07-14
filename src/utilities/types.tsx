@@ -174,3 +174,152 @@ export type queryObjectType = { [key: string]: string | number };
 
 export type policyFormType = thirdPartyInsuranceFormTypes &
   comprehensiveeFormDataTypes;
+
+export type loginDataRequestBody = {
+  name: string;
+  password: string;
+  timeZoneSecond: number;
+  lang: string;
+};
+
+export type ResponseType<T> = {
+  message: string | undefined;
+  description: string;
+  code: string;
+  success: boolean;
+  data: T;
+  status: number;
+};
+
+export type loginResponseType = {
+  address: string;
+  available: boolean;
+  clientType: string;
+  email: string;
+  indexParentLink: string;
+  joinTime: string;
+  lang: string;
+  linkMan: string;
+  linkPhone: string;
+  major: boolean;
+  mapStatus: string;
+  mobileNumbers: string;
+  name: string;
+  parentId: number;
+  parentLink: string;
+  postcode: string;
+  rechargeURL: string;
+  remark: string;
+  subAlarm: boolean;
+  timeScale: string;
+  timeZoneSecond: number;
+  token: string;
+  updateTime: string;
+  userId: string;
+  userName: string;
+  userType: number;
+};
+
+export type getUserRequestBodyType = {
+  token: string;
+  userId: string;
+};
+
+export type getUserVehicleRequestBodyType = {
+  UserId: string;
+  token?: string;
+};
+
+export type vehicleType = {
+  activeTime: string;
+  carId: number;
+  carNO: string;
+  carType: number;
+  clientServiceStatus: number;
+  deviceType: number;
+  iccid: string;
+  imei: string;
+  joinTime: string;
+  machineName: string;
+  machineType: number;
+  packVersion: number;
+  password: string;
+  platformTime: string;
+  remark: string;
+  serviceState: number;
+  serviceTime: string;
+  serviceTimeOrigin: string;
+  simNO: string;
+  updateTime: string;
+  userId: number;
+  isActive?: boolean;
+};
+
+export type vehicleStatusRequestBodyType = {
+  carId: string;
+  mapType: string;
+  token?: string;
+};
+
+export type vehicleDataWithStatus = {
+  activeTime: string;
+  carGroups: {
+    allCount: number;
+    carGroupId: number;
+    notActiveCount: number;
+    offlineCount: number;
+    onlineCount: number;
+    userId: number;
+  }[];
+  carId: number;
+  carNO: string;
+  carStatus: {
+    accStatus: number;
+    accTime: number;
+    alarm: string;
+    carId: number;
+    carPathPlanAlarmPopUpVos: [];
+    dir: number;
+    distance: number;
+    duration: number;
+    exData: string;
+    gateType: string;
+    heartTime: number;
+    lat: number;
+    latc: number;
+    lon: number;
+    lonc: number;
+    machineType: number;
+    online: number;
+    orginalSpeed: number;
+    pointTime: number;
+    pointType: number;
+    run: number;
+    show: string;
+    speed: number;
+    staticTime: number;
+    status: string;
+  };
+  carType: number;
+  clientServiceStatus: number;
+  deviceType: number;
+  iccid: string;
+  imei: string;
+  joinTime: string;
+  machineName: string;
+  machineType: string;
+  machineTypeAscription: string;
+  overSpeedSwitch: boolean;
+  overSpeedValue: number;
+  packVersion: number;
+  password: string;
+  platformTime: string;
+  remark: string;
+  serviceState: string;
+  serviceTime: string;
+  serviceTimeOrigin: string;
+  simNO: string;
+  updateTime: string;
+  userId: number;
+  wireless: boolean;
+};

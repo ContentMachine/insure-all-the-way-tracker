@@ -50,6 +50,7 @@ const AuthLayout = ({ children }: AuthLayoutTypes) => {
               src={data?.image}
               alt="Auth Image"
               className={data?.isActive ? classes.active : classes.inActive}
+              priority
             />
           );
         })}

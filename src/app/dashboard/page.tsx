@@ -1,14 +1,16 @@
+"use client";
+
 import Loader from "@/components/Loader/Loader";
-import RequireAuth from "@/components/RequireAuth/RequireAuth";
 import Dashboard from "@/containers/Dashboard/Dashboard";
+import RequireAuth from "@/middleware/RequireAuth/RequireAuth";
 import React, { Suspense } from "react";
 
 const page = () => {
   return (
     <Suspense fallback={<Loader />}>
-      {/* <RequireAuth> */}
-      <Dashboard />
-      {/* </RequireAuth> */}
+      <RequireAuth>
+        <Dashboard />
+      </RequireAuth>
     </Suspense>
   );
 };

@@ -1,6 +1,7 @@
 import moment from "moment";
 
 export const LOCAL_STORAGE_AUTH_KEY = "iatw-auth-tracker-token";
+export const LOCAL_STORAGE_USER_ID = "iatw-auth-tracker-userId";
 
 export const TABLE_LENGTH = 5;
 

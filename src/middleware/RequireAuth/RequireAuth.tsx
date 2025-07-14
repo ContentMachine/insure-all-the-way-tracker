@@ -4,7 +4,7 @@ import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { routes } from "@/utilities/routes";
-import Loader from "../Loader/Loader";
+import Loader from "../../components/Loader/Loader";
 import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
 
 type RequireAuthProps = {

@@ -9,20 +9,17 @@ const getToken = () => {
 };
 
 const axiosInstance = axios.create({
-  baseURL: BASE_API_URL,
   headers: {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost:3001",
-    "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE",
-    "Access-Control-Max-Age": 86400,
+    "Access-Control-Allow-Origin": "*",
   },
+  withCredentials: true,
 });
 
 axiosInstance.interceptors.request.use((axiosConfig) => {
   if (!navigator.onLine) {
     console.log(navigator?.onLine);
 
-    console.log("This is a testtt");
     throw new Error("Please check your internet connection");
   }
 
@@ -37,14 +34,14 @@ axiosInstance.interceptors.request.use((axiosConfig) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    if (response?.status === 200 || response?.status === 201) {
+    if (!(response?.data as any)?.code || !(response?.data as any)?.msg) {
       return response;
     } else {
-      if (navigator?.onLine) {
-        throw new Error("Please check your internet connection");
-      }
+      // if (navigator?.onLine) {
+      //   throw new Error("Please check your internet connection");
+      // }
 
-      throw new Error(response?.data?.error?.message);
+      throw new Error(response?.data?.msg);
     }
   },
   async (err) => {

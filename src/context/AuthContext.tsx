@@ -1,9 +1,17 @@
 "use client";
 
 import { requestHandler } from "@/helpers/requestHandler";
-import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
+import {
+  LOCAL_STORAGE_AUTH_KEY,
+  LOCAL_STORAGE_USER_ID,
+} from "@/utilities/constants";
 import { routes } from "@/utilities/routes";
-import { requestType, userType } from "@/utilities/types";
+import {
+  loginDataRequestBody,
+  loginResponseType,
+  requestType,
+  userType,
+} from "@/utilities/types";
 import { useRouter } from "../../node_modules/next/navigation";
 import {
   createContext,
@@ -12,10 +20,13 @@ import {
   useEffect,
   useState,
 } from "react";
+import { getUser } from "@/services/api";
+import useError from "@/hooks/useError";
+import { TOKEN, USER_ID } from "@/config";
 
 type AuthContextValuesType = {
-  user: userType | null;
-  setUser: Dispatch<SetStateAction<userType | null>>;
+  user: loginResponseType | null;
+  setUser: Dispatch<SetStateAction<loginResponseType | null>>;
   requestState: requestType;
   logout: () => void;
 };
@@ -28,7 +39,7 @@ export const AuthContext = createContext({} as AuthContextValuesType);
 
 const AuthContextProvider = ({ children }: AuthContextProviderType) => {
   // States
-  const [user, setUser] = useState<null | userType>(null);
+  const [user, setUser] = useState<null | loginResponseType>(null);
   const [requestState, setRequestState] = useState<requestType>({
     isLoading: false,
     data: null,
@@ -38,45 +49,47 @@ const AuthContextProvider = ({ children }: AuthContextProviderType) => {
   // ROuter
   const router = useRouter();
 
+  // Hooks
+  const { errorFlowFunction } = useError();
+
   // Utils
-
-  //   Requests
-  const getUser = () => {
-    requestHandler({
-      url: "/auth/profile",
-      method: "GET",
-      state: requestState,
-      setState: setRequestState,
-      successFunction(res) {
-        setUser(res?.data?.user);
-
-        console.log(res, "Res");
-      },
-      errorFunction(err) {
-        console.log(err, "Res");
-        if (typeof window !== "undefined") {
-          const accessToken = localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
-
-          if (!accessToken) {
-            logout();
-          }
-        }
-
-        setUser(null);
-      },
-    });
-  };
+  const token = TOKEN;
+  const userId = USER_ID;
 
   const logout = () => {
     setUser(null);
     if (typeof window !== "undefined") {
       localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_USER_ID);
     }
-    router.push(routes.SIGN_IN);
+    router.replace(routes.SIGN_IN);
+    setUser(null);
+  };
+
+  const getUserInfoHandler = async () => {
+    setRequestState({ isLoading: true, data: null, error: null });
+
+    try {
+      const response = await getUser({
+        token: token as string,
+        userId: userId as string,
+      });
+
+      setUser(response?.data?.data);
+    } catch (error) {
+      errorFlowFunction(error);
+      logout();
+    } finally {
+      setRequestState((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
+    }
   };
 
   useEffect(() => {
-    getUser();
+    if (token && userId) {
+      getUserInfoHandler();
+    }
   }, []);
 
   return (

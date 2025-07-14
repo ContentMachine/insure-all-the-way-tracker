@@ -8,7 +8,10 @@ import { useToast } from "@/context/ToastContext";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { requestHandler } from "@/helpers/requestHandler";
 import useError from "@/hooks/useError";
-import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
+import {
+  LOCAL_STORAGE_AUTH_KEY,
+  LOCAL_STORAGE_USER_ID,
+} from "@/utilities/constants";
 import { routes } from "@/utilities/routes";
 import { requestType } from "@/utilities/types";
 import { useContext, useState } from "react";
@@ -16,6 +19,7 @@ import { useRouter } from "next/navigation";
 import classes from "./SignIn.module.css";
 import AuthLayout from "@/layouts/AuthLayout/AuthLayout";
 import Link from "next/link";
+import { login } from "@/services/api";
 
 const SignIn = () => {
   // States
@@ -37,30 +41,34 @@ const SignIn = () => {
   const { setUser } = useContext(AuthContext);
 
   // Hooks
-  const { showToast } = useToast();
   const { errorFlowFunction } = useError();
 
-  const login = () => {
-    requestHandler({
-      url: "/agent/sign-in",
-      method: "POST",
-      data: { email: loginData?.email, password: loginData?.password },
-      state: requestState,
-      setState: setRequestState,
-      id: "sign-in",
-      requestCleanup: true,
-      successFunction(res) {
-        if (localStorage && typeof window !== "undefined") {
-          localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, res?.data?.token);
-        }
-        setUser(res?.data?.user);
+  const loginHandler = async () => {
+    setRequestState({ isLoading: true, data: null, error: null });
 
-        router.push(routes.DASHBOARD);
-      },
-      errorFunction(err) {
-        errorFlowFunction(err);
-      },
-    });
+    try {
+      const response = await login({
+        name: loginData?.email,
+        password: loginData?.password,
+        timeZoneSecond: 28800,
+        lang: "en-GB",
+      });
+
+      setUser(response?.data?.data);
+      localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, response?.data?.data?.token);
+      localStorage.setItem(LOCAL_STORAGE_USER_ID, response?.data?.data?.userId);
+
+      setTimeout(() => {
+        router.replace(routes.DASHBOARD);
+      }, 1000);
+    } catch (error) {
+      console.log(error, "There was an error");
+      errorFlowFunction(error);
+    } finally {
+      setRequestState((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
+    }
   };
 
   return (
@@ -93,7 +101,7 @@ const SignIn = () => {
           loading={requestState?.isLoading}
           onClick={(e) => {
             e.preventDefault();
-            login();
+            loginHandler();
           }}
           disabled={!loginData?.email || !loginData?.password}
         >

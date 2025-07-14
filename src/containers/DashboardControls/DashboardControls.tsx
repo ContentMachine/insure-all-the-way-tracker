@@ -1,18 +1,38 @@
+"use client";
+
 import Close from "@/assets/svgIcons/Close";
 import classes from "./DashboardControls.module.css";
 import Button from "@/components/Button/Button";
 import VehicleRow from "../../components/VehicleRow/VehicleRow";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import Modal from "@/components/Modal/Modal";
-import { modalGenericType } from "@/utilities/types";
+import { modalGenericType, requestType, vehicleType } from "@/utilities/types";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import VehicleDetailsModalBody from "../VehicleDetailsModalBody/VehicleDetailsModalBody";
 import VehicleHistoryDateModalBody from "../VehicleHistoryDateModalBody/VehicleHistoryDateModalBody";
 import VehicleHistoryVideoPlaybackModalBody from "../VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody";
 import VehicleReportModalBody from "../VehicleReportModalBody/VehicleReportModalBody";
 import DeativateVehicleModalBody from "../DeativateVehicleModalBody/DeativateVehicleModalBody";
+import axiosInstance from "@/services";
+import { jsonpRequest } from "@/utilities/jsonpClient";
+import jsonp from "jsonp";
+import { getUserVehicles } from "@/services/api";
+import { PARENT_ID, TOKEN, USER_ID } from "@/config";
+import useError from "@/hooks/useError";
+import Loader from "@/components/Loader/Loader";
+import { activeToggler } from "@/helpers/activeHandlers";
 
-const DashboardControls = () => {
+type DashboardControlsType = {
+  vehicles: vehicleType[];
+  setVehicles: Dispatch<SetStateAction<vehicleType[]>>;
+  requestState: requestType;
+};
+
+const DashboardControls = ({
+  vehicles,
+  requestState,
+  setVehicles,
+}: DashboardControlsType) => {
   // States
   const [modals, setModals] = useState<modalGenericType>({
     vehicleDetails: false,
@@ -133,10 +153,24 @@ const DashboardControls = () => {
 
           <div className={classes.vehicles}>
             <h4>Vehicles</h4>
-            <VehicleRow options={options} />
-            <VehicleRow options={options} />
-            <VehicleRow options={options} />
-            <VehicleRow options={options} />
+            {requestState?.isLoading ? (
+              <Loader />
+            ) : (
+              vehicles?.map((data, i) => {
+                return (
+                  <VehicleRow
+                    options={options}
+                    key={data?.carId}
+                    data={data}
+                    onClick={() => {
+                      activeToggler(i, vehicles, setVehicles);
+                      console.log("Clocked");
+                    }}
+                    isActive={data?.isActive as boolean}
+                  />
+                );
+              })
+            )}
           </div>
         </div>
         {/* <Button

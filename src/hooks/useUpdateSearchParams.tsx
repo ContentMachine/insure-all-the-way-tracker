@@ -33,21 +33,23 @@ const useUpdateSearchParams = () => {
   };
 
   const updateConcurrentSearchParams = (
-    updates: { [key: string]: string | undefined },
-    method: "set" | "delete" | "get",
+    updates: {
+      [key: string]: {
+        method: "set" | "delete" | "get";
+        value?: string;
+      };
+    },
     scroll?: boolean
   ) => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(searchParams.toString());
 
-      Object.entries(updates).forEach(([key, value]) => {
+      Object.entries(updates).forEach(([key, { method, value }]) => {
         if (method === "get") {
-          return params.get(key); // Fetching a value for a specific key
-        }
-
-        if (method === "delete") {
+          console.log(`Value of ${key}:`, params.get(key));
+        } else if (method === "delete") {
           params.delete(key);
-        } else if (value !== undefined) {
+        } else if (method === "set" && value !== undefined) {
           params.set(key, value);
         }
       });

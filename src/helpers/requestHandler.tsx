@@ -1,18 +1,17 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { requestType } from "../utilities/types";
-import axiosInstance from "../services/index";
 
-type RequestType = {
+type RequestHandlerOptions = {
   method: string;
   url: string;
-  headers?: any;
   data?: any;
+  headers?: HeadersInit;
   isMultipart?: boolean;
-  state?: requestType;
+  useProxy?: boolean;
   setState?: Dispatch<SetStateAction<requestType>>;
-  successFunction?: (res?: AxiosResponse) => void;
-  errorFunction?: (err: AxiosError) => void;
+  successFunction?: (res: any) => void;
+  errorFunction?: (err: any) => void;
   load?: boolean;
   requestCleanup?: boolean;
   id?: string;
@@ -21,81 +20,93 @@ type RequestType = {
 export async function requestHandler({
   method,
   url,
-  headers,
   data,
-  isMultipart,
+  headers = {},
+  isMultipart = false,
+  useProxy = true,
   setState,
   successFunction,
   errorFunction,
   load,
   requestCleanup,
   id,
-}: RequestType) {
+}: RequestHandlerOptions) {
+  const setLoadingState = (
+    isLoading: boolean,
+    error: any = null,
+    responseData: any = null
+  ) => {
+    if (setState) {
+      setState({
+        isLoading,
+        error,
+        data: responseData,
+        id: id ?? "",
+      });
+
+      if (requestCleanup && !isLoading) {
+        setTimeout(() => {
+          setState({
+            isLoading: false,
+            error: null,
+            data: null,
+            id: id ?? "",
+          });
+        }, 5000);
+      }
+    }
+  };
+
+  // Set loading
   if ((setState && load === true) || (setState && load === undefined)) {
-    setState((prevState) => {
-      return { ...prevState, isLoading: true, id: id as string };
-    });
-  } else if (setState && load === false) {
-    setState((prevState) => {
-      return { ...prevState, isLoading: false, id: id as string };
-    });
+    setLoadingState(true);
   }
 
-  axiosInstance({
-    method,
-    url,
-    headers: {
-      "Content-Type": !isMultipart ? "application/json" : "multipart/form-data",
-      ...headers,
-    },
-    data,
-  })
-    .then((res) => {
-      if (setState) {
-        setState({
-          isLoading: false,
-          data: res?.data,
-          error: null,
-          id: id as string,
-        });
+  try {
+    const finalUrl = useProxy ? "/api/proxy" : url;
+    const fetchOptions: RequestInit = {
+      method,
+      headers: {},
+    };
 
-        if (requestCleanup) {
-          setTimeout(() => {
-            setState({
-              isLoading: false,
-              data: null,
-              error: null,
-              id: id as string,
-            });
-          }, 5000);
+    if (useProxy) {
+      fetchOptions.headers = {
+        "Content-Type": "application/json",
+      };
+      fetchOptions.body = JSON.stringify({
+        method,
+        url,
+        data,
+        isMultipart,
+        headers,
+      });
+    } else {
+      if (method !== "GET") {
+        if (isMultipart && data instanceof FormData) {
+          fetchOptions.body = data;
+          fetchOptions.headers = headers; // Let browser set boundary
+        } else {
+          fetchOptions.body = JSON.stringify(data);
+          fetchOptions.headers = {
+            "Content-Type": "application/json",
+            ...headers,
+          };
         }
+      } else {
+        fetchOptions.headers = headers;
       }
-      if (successFunction) {
-        successFunction(res);
-      }
-    })
-    .catch((err) => {
-      if (setState) {
-        setState({
-          isLoading: false,
-          data: null,
-          error: err.response?.data?.message || err?.message,
-          id: id as string,
-        });
+    }
 
-        if (requestCleanup) {
-          setTimeout(() => {
-            setState({
-              isLoading: false,
-              data: null,
-              error: null,
-              id: id as string,
-            });
-          }, 5000);
-        }
-      }
-      if (errorFunction) {
-        errorFunction(err);
-      }
-    });
+    const response = await fetch(finalUrl, fetchOptions);
+
+    const responseData = await response.json();
+
+    setLoadingState(false, null, responseData);
+
+    if (successFunction) successFunction(responseData);
+  } catch (error: any) {
+    setLoadingState(false, error.message || "Request failed");
+
+    if (errorFunction) errorFunction(error);
+  }
 }

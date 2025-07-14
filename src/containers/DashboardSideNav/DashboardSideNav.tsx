@@ -2,14 +2,14 @@ import Logo from "@/components/Logo/Logo";
 import classes from "./DashboardSideNav.module.css";
 import { dashboardRoutes, routes } from "@/utilities/routes";
 import Link from "next/link";
-import RequireAuth from "@/components/RequireAuth/RequireAuth";
 import { usePathname, useRouter } from "next/navigation";
 import Logout from "@/assets/svgIcons/Logout";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { modalGenericType } from "@/utilities/types";
 import Modal from "@/components/Modal/Modal";
 import LogoutModalBody from "../LogoutModalBody/LogoutModalBody";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
+import { AuthContext } from "@/context/AuthContext";
 
 const DashboardSideNav = () => {
   // Router
@@ -21,6 +21,9 @@ const DashboardSideNav = () => {
   const [modals, setModals] = useState<modalGenericType>({
     logout: false,
   });
+
+  // Context
+  const { logout } = useContext(AuthContext);
 
   // Ref
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -59,7 +62,9 @@ const DashboardSideNav = () => {
           body={
             <LogoutModalBody
               onClose={() => setAllModalsFalse(setModals)}
-              onLogout={() => router.push(routes.SIGN_IN)}
+              onLogout={() => {
+                logout();
+              }}
             />
           }
           onClick={() => setAllModalsFalse(setModals)}
@@ -96,6 +101,7 @@ const DashboardSideNav = () => {
             {dashboardRoutes?.map((data) => {
               return (
                 <li
+                  key={data?.route}
                   className={
                     pathname === data?.route ? classes.active : classes.inActive
                   }

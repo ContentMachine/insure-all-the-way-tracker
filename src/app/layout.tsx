@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ToastContextProvider } from "@/context/ToastContext";
 import UseSWRConfigProvider from "@/config/SWRConfig";
+import AuthContextProvider from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +29,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ToastContextProvider>
-          <UseSWRConfigProvider>{children}</UseSWRConfigProvider>
+          <AuthContextProvider>
+            <UseSWRConfigProvider>{children}</UseSWRConfigProvider>
+          </AuthContextProvider>
         </ToastContextProvider>
       </body>
     </html>
