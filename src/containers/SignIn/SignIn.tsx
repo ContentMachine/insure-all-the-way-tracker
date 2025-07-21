@@ -62,7 +62,6 @@ const SignIn = () => {
         router.replace(routes.DASHBOARD);
       }, 1000);
     } catch (error) {
-      console.log(error, "There was an error");
       errorFlowFunction(error);
     } finally {
       setRequestState((prevState) => {

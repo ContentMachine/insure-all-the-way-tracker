@@ -4,6 +4,7 @@ import {
   loginDataRequestBody,
   loginResponseType,
   vehicleDataWithStatus,
+  vehicleHistoryStatusRequestBodyType,
   vehicleStatusRequestBodyType,
   vehicleType,
 } from "@/utilities/types";
@@ -34,6 +35,60 @@ export const getUserVehicles = (data: getUserVehicleRequestBodyType) => {
 export const getVehicleDataAndStatus = (data: vehicleStatusRequestBodyType) => {
   return axiosInstance.post<ResponseType<vehicleDataWithStatus[]>>(
     "/api/vehicle/getVehicleStatsByCarId",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleHistory = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/getVehicleTrackerHistory",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleDailyReport = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/dailyReport",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleDriverBehaviorReport = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/driverBehavior",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleMileagereport = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/mileageReport",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleSpeedOrFuelReport = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/speedOrFuelReport",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleStopReport = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/stopReport",
     JSON.stringify(data)
   );
 };

@@ -2,23 +2,10 @@
 
 import Close from "@/assets/svgIcons/Close";
 import classes from "./DashboardControls.module.css";
-import Button from "@/components/Button/Button";
 import VehicleRow from "../../components/VehicleRow/VehicleRow";
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
-import Modal from "@/components/Modal/Modal";
-import { modalGenericType, requestType, vehicleType } from "@/utilities/types";
-import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
-import VehicleDetailsModalBody from "../VehicleDetailsModalBody/VehicleDetailsModalBody";
-import VehicleHistoryDateModalBody from "../VehicleHistoryDateModalBody/VehicleHistoryDateModalBody";
-import VehicleHistoryVideoPlaybackModalBody from "../VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody";
-import VehicleReportModalBody from "../VehicleReportModalBody/VehicleReportModalBody";
-import DeativateVehicleModalBody from "../DeativateVehicleModalBody/DeativateVehicleModalBody";
-import axiosInstance from "@/services";
-import { jsonpRequest } from "@/utilities/jsonpClient";
-import jsonp from "jsonp";
-import { getUserVehicles } from "@/services/api";
-import { PARENT_ID, TOKEN, USER_ID } from "@/config";
-import useError from "@/hooks/useError";
+import { Dispatch, SetStateAction } from "react";
+import { requestType, vehicleType } from "@/utilities/types";
+
 import Loader from "@/components/Loader/Loader";
 import { activeToggler } from "@/helpers/activeHandlers";
 
@@ -26,129 +13,37 @@ type DashboardControlsType = {
   vehicles: vehicleType[];
   setVehicles: Dispatch<SetStateAction<vehicleType[]>>;
   requestState: requestType;
+  show: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
 };
 
 const DashboardControls = ({
   vehicles,
   requestState,
   setVehicles,
+  show,
+  setShow,
 }: DashboardControlsType) => {
-  // States
-  const [modals, setModals] = useState<modalGenericType>({
-    vehicleDetails: false,
-    vehicleHistoryDate: false,
-    vehicleHistory: false,
-    vehicleGeofencing: false,
-    reportDate: false,
-    report: false,
-    share: false,
-    deactivate: false,
-  });
-
-  //   Utils
-  const options = [
-    {
-      title: "Vehicle Details",
-      onClick: () => setModalTrue(setModals, "vehicleDetails"),
-    },
-    {
-      title: "View Vehicle History",
-      onClick: () => setModalTrue(setModals, "vehicleHistoryDate"),
-    },
-    {
-      title: "Vehicle Geofencing",
-      onClick: () => setModalTrue(setModals, "vehicleHistoryDate"),
-    },
-    { title: "Report", onClick: () => setModalTrue(setModals, "reportDate") },
-    {
-      title: "Deactivate Vehicle",
-      onClick: () => setModalTrue(setModals, "deactivate"),
-      properties: ["isAlert"],
-    },
-  ];
-
   return (
     <>
-      {modals?.vehicleDetails && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <VehicleDetailsModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-            />
-          }
-        />
-      )}
-
-      {modals?.vehicleHistoryDate && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <VehicleHistoryDateModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-              onClick={() => {
-                setAllModalsFalse(setModals);
-                setModalTrue(setModals, "vehicleHistory");
-              }}
-            />
-          }
-        />
-      )}
-
-      {modals?.vehicleHistory && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <VehicleHistoryVideoPlaybackModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-            />
-          }
-        />
-      )}
-
-      {modals?.reportDate && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <VehicleHistoryDateModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-              hasEndDate
-              onClick={() => {
-                setAllModalsFalse(setModals);
-                setModalTrue(setModals, "report");
-              }}
-            />
-          }
-        />
-      )}
-
-      {modals?.report && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <VehicleReportModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-            />
-          }
-        />
-      )}
-
-      {modals?.deactivate && (
-        <Modal
-          onClick={() => setAllModalsFalse(setModals)}
-          body={
-            <DeativateVehicleModalBody
-              onClose={() => setAllModalsFalse(setModals)}
-            />
-          }
-        />
-      )}
-
-      <section className={classes.container}>
+      <section
+        className={classes.container}
+        style={
+          show
+            ? {
+                translate: "0px",
+              }
+            : { translate: "-420px" }
+        }
+      >
         <div>
           <div className={classes.header}>
             <h4>Monitor Tracked Devices</h4>
-            <Close />
+            <Close
+              onClick={() => {
+                setShow(!show);
+              }}
+            />
           </div>
 
           <div className={classes.vehicles}>
@@ -159,12 +54,10 @@ const DashboardControls = ({
               vehicles?.map((data, i) => {
                 return (
                   <VehicleRow
-                    options={options}
                     key={data?.carId}
                     data={data}
                     onClick={() => {
                       activeToggler(i, vehicles, setVehicles);
-                      console.log("Clocked");
                     }}
                     isActive={data?.isActive as boolean}
                   />

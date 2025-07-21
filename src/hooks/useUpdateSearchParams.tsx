@@ -46,7 +46,6 @@ const useUpdateSearchParams = () => {
 
       Object.entries(updates).forEach(([key, { method, value }]) => {
         if (method === "get") {
-          console.log(`Value of ${key}:`, params.get(key));
         } else if (method === "delete") {
           params.delete(key);
         } else if (method === "set" && value !== undefined) {

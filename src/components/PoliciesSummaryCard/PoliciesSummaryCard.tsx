@@ -33,7 +33,7 @@ const PoliciesSummaryCard = ({
     <div className={classes.container} style={{ backgroundColor }}>
       <div className={classes.overlay}></div>
       <span>{title}</span>
-      <h2> {notAmount ? amount : `₦${formatCurrency(amount)}`}</h2>
+      <h2> {notAmount ? amount || 0 : `₦${formatCurrency(amount)}`}</h2>
       {cta && (
         <div>
           <span>{cta.text}</span>

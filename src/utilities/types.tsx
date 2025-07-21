@@ -261,45 +261,56 @@ export type vehicleStatusRequestBodyType = {
   token?: string;
 };
 
+export type vehicleHistoryStatusRequestBodyType = {
+  carId?: string;
+  startTime: string;
+  endTime?: string;
+  token?: string;
+};
+
+export type carStatusType = {
+  accStatus: number;
+  accTime: number;
+  alarm: string;
+  carId: number;
+  carPathPlanAlarmPopUpVos: [];
+  dir: number;
+  distance: number;
+  duration: number;
+  exData: string;
+  gateType: string;
+  heartTime: number;
+  lat: number;
+  latc: number;
+  lon: number;
+  lonc: number;
+  machineType: number;
+  online: number;
+  orginalSpeed: number;
+  pointTime: number;
+  pointType: number;
+  run: number;
+  show: string;
+  speed: number;
+  staticTime: number;
+  status: string;
+};
+
+export type carGroupType = {
+  allCount: number;
+  carGroupId: number;
+  notActiveCount: number;
+  offlineCount: number;
+  onlineCount: number;
+  userId: number;
+};
+
 export type vehicleDataWithStatus = {
   activeTime: string;
-  carGroups: {
-    allCount: number;
-    carGroupId: number;
-    notActiveCount: number;
-    offlineCount: number;
-    onlineCount: number;
-    userId: number;
-  }[];
+  carGroups: carGroupType[];
   carId: number;
   carNO: string;
-  carStatus: {
-    accStatus: number;
-    accTime: number;
-    alarm: string;
-    carId: number;
-    carPathPlanAlarmPopUpVos: [];
-    dir: number;
-    distance: number;
-    duration: number;
-    exData: string;
-    gateType: string;
-    heartTime: number;
-    lat: number;
-    latc: number;
-    lon: number;
-    lonc: number;
-    machineType: number;
-    online: number;
-    orginalSpeed: number;
-    pointTime: number;
-    pointType: number;
-    run: number;
-    show: string;
-    speed: number;
-    staticTime: number;
-    status: string;
-  };
+  carStatus: carStatusType;
   carType: number;
   clientServiceStatus: number;
   deviceType: number;
@@ -322,4 +333,45 @@ export type vehicleDataWithStatus = {
   updateTime: string;
   userId: number;
   wireless: boolean;
+  deviceName?: string;
+  simCard?: string;
+  model?: string;
+  isActive?: string;
+  lastActivityTime?: string;
+};
+
+export type vehicleHistoryType = {
+  alarm: string;
+  altitude: number;
+  dir: number;
+  exData: string;
+  imei: string;
+  isStop: boolean;
+  lat: number;
+  latc: number;
+  lon: number;
+  lonc: number;
+  mileage: number;
+  pointDt: string;
+  pointType: number;
+  remark: string;
+  signalMile: number;
+  speed: number;
+  status: string;
+  stopTime: number;
+};
+
+export type vehicleTableDataTyoe = {
+  deviceName: string;
+  simCard: string;
+  model: string;
+  isActive: string;
+  lastActivityTime: string;
+};
+
+export type vehicleTableStatsType = {
+  allDevices: number;
+  offlineDevices: number;
+  onlineDevices: number;
+  expiredDevices: number;
 };

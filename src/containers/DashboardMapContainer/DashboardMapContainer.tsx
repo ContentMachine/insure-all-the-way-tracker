@@ -3,12 +3,9 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import classes from "./DashboardMapContainer.module.css";
-import DashboardMapPopupContainer from "../DashboardMapPopupContainer/DashboardMapPopupContainer";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { useEffect, useState } from "react";
-import Logo from "@/components/Logo/Logo";
-import logo from "../../assets/images/logo.png";
-import Image from "next/image";
+
 import L from "leaflet";
 import { useMap } from "react-leaflet";
 
@@ -17,7 +14,7 @@ function RecenterMap({ position }: { position: [number, number] }) {
 
   useEffect(() => {
     if (position[0] && position[1]) {
-      map.flyTo(position, map.getZoom()); // or use map.setView(...)
+      map.flyTo(position, map.getZoom());
     }
   }, [position, map]);
 
@@ -26,13 +23,11 @@ function RecenterMap({ position }: { position: [number, number] }) {
 
 // Create icon
 const customIcon = new L.Icon({
-  iconUrl: "/logo.png", // from /public folder
-  iconSize: [50, 32], // size in px
-  iconAnchor: [16, 32], // point of the icon which will correspond to marker's location
-  popupAnchor: [0, -32], // offset of the popup from the icon
+  iconUrl: "/yellowCar.png",
+  iconSize: [40, 22],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
 });
-
-// const position = [6.5244, 3.3792];
 
 function DashboardMapContainer() {
   // Hooks

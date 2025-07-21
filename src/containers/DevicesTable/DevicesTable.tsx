@@ -1,49 +1,35 @@
 import CustomTable from "@/components/CustomTable/CustomTable";
 import classes from "../ReportsTable/ReportsTable.module.css";
 import { useState } from "react";
-import { modalGenericType } from "@/utilities/types";
+import {
+  modalGenericType,
+  vehicleDataWithStatus,
+  vehicleTableDataTyoe,
+} from "@/utilities/types";
 import Modal from "@/components/Modal/Modal";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import VehicleDetailsModalBody from "../VehicleDetailsModalBody/VehicleDetailsModalBody";
 
-const headers = ["Device Name", "SIM Card", "Model", "Status", "Activity Time"];
+interface Props {
+  data: vehicleDataWithStatus[];
+}
 
-const data = [
-  {
-    deviceName: "Toyota Corolla",
-    simCard: "+2347018898015",
-    model: "R16",
-    status: "online",
-    activityTime: "2025-04-15",
-  },
-  {
-    deviceName: "Toyota Corolla",
-    simCard: "+2347018898015",
-    model: "R16",
-    status: "online",
-    activityTime: "2025-04-15",
-  },
-  {
-    deviceName: "Toyota Corolla",
-    simCard: "+2347018898015",
-    model: "R16",
-    status: "online",
-    activityTime: "2025-04-15",
-  },
-  {
-    deviceName: "Toyota Corolla",
-    simCard: "+2347018898015",
-    model: "R16",
-    status: "online",
-    activityTime: "2025-04-15",
-  },
+const headers = [
+  "Device Name",
+  "SIM Card Number",
+  "Model",
+  "Status",
+  "Activity Time",
 ];
 
-const DevicesTable = () => {
+const DevicesTable: React.FC<Props> = ({ data }) => {
   // States
   const [modals, setModals] = useState<modalGenericType>({
     info: false,
   });
+  const [selectedVehicle, setSelectedVehicle] =
+    useState<null | vehicleDataWithStatus>(null);
+
   return (
     <>
       {modals?.info && (
@@ -52,6 +38,7 @@ const DevicesTable = () => {
           body={
             <VehicleDetailsModalBody
               onClose={() => setAllModalsFalse(setModals)}
+              data={selectedVehicle as vehicleDataWithStatus}
             />
           }
         />
@@ -61,9 +48,18 @@ const DevicesTable = () => {
         <CustomTable
           header="Devices"
           data={data}
-          fields={["deviceName", "simCard", "model", "status", "activityTime"]}
+          fields={[
+            "deviceName",
+            "simCard",
+            "model",
+            "status",
+            "lastActivityTime",
+          ]}
           headers={headers}
-          onRowClick={() => setModalTrue(setModals, "info")}
+          onRowClick={(data: any) => {
+            setSelectedVehicle(data);
+            setModalTrue(setModals, "info");
+          }}
         />
       </section>
     </>

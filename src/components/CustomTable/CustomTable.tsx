@@ -131,6 +131,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                 className={`${classes.tableBodyContainer}`}
                 onClick={() => {
                   onRowClick && onRowClick(row);
+
                   setState && setState(row?._id || row?.id);
                 }}
               >

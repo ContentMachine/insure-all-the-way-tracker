@@ -119,9 +119,3 @@ const DashboardHeader = ({ header }: DashboardHeaderType) => {
 };
 
 export default DashboardHeader;
-
-// "hidden lg:flex items-center justify-between gap-4 h-[70px] sticky top-0 bg-white z-20
-// className="flex items-center gap-1 p-2 rounded-[500px] bg-grey-100"
-// py-2 px-4 rounded-[54px] font-main text-sm
-// "bg-white shadow-100 text-blue-100 font-bold"
-//  "font-normal text-grey-200 "

@@ -1,7 +1,6 @@
 .container {
   background-color: var(--black);
   padding: 1rem;
-  min-width: 327px;
   min-height: 138px;
   color: var(--white);
   border-radius: 10px;
@@ -84,8 +83,7 @@
 @media screen and (max-width: 767px) {
   .container {
     padding: 1rem;
-    min-width: 257px;
-    min-height: 11s8px;
+    min-height: 118px;
   }
 
   .container > span {

@@ -1,6 +1,6 @@
 "use client";
 
-import { capitalize } from "@/helpers/capitalize";
+import { capitalize, capitalizeEachWord } from "@/helpers/capitalize";
 import classes from "./GreetingComponent.module.css";
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
@@ -26,7 +26,7 @@ const GreetingComponent = () => {
     <div>
       <section className={classes.container}>
         {getCurrentHours()}
-        <h4>{capitalize((user?.firstName as string) || "User")}</h4>
+        <h4>{capitalizeEachWord((user?.userName as string) || "User")}</h4>
       </section>
     </div>
   );

@@ -39,8 +39,6 @@ const AuthLayout = ({ children }: AuthLayoutTypes) => {
     activeToggler(activeIndex, images, setImages);
   }, [activeIndex]);
 
-  console.log(activeIndex, "Test");
-
   return (
     <section className={classes.container}>
       <div>

@@ -214,7 +214,7 @@
 
 @media screen and (max-width: 767px) {
   .dropdown {
-    border-radius: 10px;
+    border-radius: 5px;
     width: 100%;
     height: 50px;
     padding: 0 12px;

@@ -4,12 +4,12 @@ import DashboardLayout from "@/layouts/DashboardLayout/DashboardLayout";
 import classes from "./Dashboard.module.css";
 import DashboardMapContainer from "../DashboardMapContainer/DashboardMapContainer";
 import DashboardControls from "../DashboardControls/DashboardControls";
-import { useTestWhatGps } from "@/hooks/useTracker";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { requestType, vehicleType } from "@/utilities/types";
 import { getUserVehicles } from "@/services/api";
 import { TOKEN, USER_ID } from "@/config";
 import useError from "@/hooks/useError";
+import ArrowForward from "@/assets/svgIcons/ArrowForward";
 
 const Dashboard = () => {
   // States
@@ -19,6 +19,7 @@ const Dashboard = () => {
     error: null,
   });
   const [vehicleState, setVehicleState] = useState<vehicleType[]>([]);
+  const [showControls, setShowControls] = useState(true);
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -44,7 +45,6 @@ const Dashboard = () => {
         })
       );
     } catch (error) {
-      console.log(error);
       errorFlowFunction(error);
     } finally {
       setRequestState((prevState) => {
@@ -53,17 +53,10 @@ const Dashboard = () => {
     }
   };
 
-  // Memo
-  const activeVehicle: vehicleType | undefined = useMemo(() => {
-    return vehicleState?.find((data) => data?.isActive);
-  }, [vehicleState]);
-
   // Effects
   useEffect(() => {
     handleGetUserVehicles();
   }, []);
-
-  console.log(vehicleState, "Vehicle state");
 
   return (
     <>
@@ -73,7 +66,16 @@ const Dashboard = () => {
           vehicles={vehicleState}
           setVehicles={setVehicleState}
           requestState={requestState}
+          show={showControls}
+          setShow={setShowControls}
         />
+        <div
+          className={classes.arrow}
+          style={showControls ? { translate: "-60px" } : { translate: "0px" }}
+          onClick={() => setShowControls(true)}
+        >
+          <ArrowForward />
+        </div>
       </DashboardLayout>
     </>
   );

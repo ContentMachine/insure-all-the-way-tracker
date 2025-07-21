@@ -18,8 +18,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((axiosConfig) => {
   if (!navigator.onLine) {
-    console.log(navigator?.onLine);
-
     throw new Error("Please check your internet connection");
   }
 

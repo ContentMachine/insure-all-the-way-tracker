@@ -34,4 +34,8 @@
   .container > section {
     min-height: calc(100vh - var(--headerHeight));
   }
+
+  .container > nav {
+    display: none;
+  }
 }

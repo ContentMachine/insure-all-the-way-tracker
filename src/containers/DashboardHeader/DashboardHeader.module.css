@@ -78,6 +78,7 @@
 
 .container > svg:last-child {
   display: none;
+  margin-left: auto;
 }
 
 .sidenav {
@@ -85,7 +86,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 100;
+  z-index: 200;
   background-color: var(--white);
   overflow: hidden;
   width: 0%;
@@ -109,5 +110,10 @@
 
   .user {
     margin-left: auto;
+  }
+
+  .container > h4 {
+    font-size: 18px;
+    font-weight: 600;
   }
 }

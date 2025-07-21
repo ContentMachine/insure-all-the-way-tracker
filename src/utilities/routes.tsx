@@ -26,7 +26,7 @@ export const dashboardRoutes = [
     icon: <Dashboard />,
   },
   {
-    title: "Devices",
+    title: "Vehicles",
     route: routes.DEVICES,
     properties: ["isProtected"],
     icon: <Car />,

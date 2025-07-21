@@ -28,3 +28,31 @@
 .container > form > button {
   margin-top: 4rem;
 }
+
+@media screen and (max-width: 767px) {
+  .container {
+    width: 90vw;
+    min-height: 100px;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .container > svg {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .container > h2 {
+    font-size: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .container > form > div {
+    margin-bottom: 0.75rem;
+  }
+
+  .container > form > button {
+    margin-top: 2rem;
+  }
+}
