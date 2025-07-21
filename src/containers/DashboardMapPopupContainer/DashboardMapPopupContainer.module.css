@@ -1,0 +1,28 @@
+.container {
+  min-height: 200px;
+  min-width: 250px;
+}
+
+.container > h4 {
+  font-family: General Sans;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 140%;
+  margin-bottom: 1rem;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.info > span:nth-child(2) {
+  flex-basis: 80%;
+  font-family: General Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 140%;
+}

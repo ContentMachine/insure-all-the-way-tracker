@@ -1,0 +1,58 @@
+.container {
+  width: 600px;
+  padding: 2rem;
+  min-height: 200px;
+  position: relative;
+}
+
+.container > svg {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.container > h2 {
+  font-family: General Sans;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 120%;
+  letter-spacing: -1px;
+  text-underline-position: from-font;
+  margin-bottom: 2rem;
+}
+
+.container > form > div {
+  margin-bottom: 2rem;
+}
+
+.container > form > button {
+  margin-top: 4rem;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    width: 90vw;
+    min-height: 100px;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .container > svg {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .container > h2 {
+    font-size: 20px;
+    margin-bottom: 1.5rem;
+  }
+
+  .container > form > div {
+    margin-bottom: 0.75rem;
+  }
+
+  .container > form > button {
+    margin-top: 2rem;
+  }
+}

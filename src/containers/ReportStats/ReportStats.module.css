@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  width: 100%;
+  flex-basis: 100%;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.container > div {
+  scroll-snap-align: start;
+  width: calc(25% - 1rem);
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .container {
+    scrollbar-width: none;
+    gap: 0.5rem;
+    overflow-x: hidden;
+    overflow-x: auto;
+  }
+
+  .container > div {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: 70%;
+  }
+
+  .container::-webkit-scrollbar {
+    display: none;
+  }
+}

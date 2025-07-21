@@ -1,0 +1,36 @@
+{
+  "name": "insure-all-the-way-tracker",
+  "proxy": "https://www.whatsgps.com",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.0.2",
+    "@mui/styled-engine-sc": "^7.0.2",
+    "axios": "^1.8.4",
+    "jsonp": "^0.2.1",
+    "leaflet": "^1.9.4",
+    "moment": "^2.30.1",
+    "next": "15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-leaflet": "^5.0.0-rc.2",
+    "styled-components": "^6.1.17",
+    "swr": "^2.3.3"
+  },
+  "devDependencies": {
+    "@types/jsonp": "^0.2.3",
+    "@types/leaflet": "^1.9.17",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
