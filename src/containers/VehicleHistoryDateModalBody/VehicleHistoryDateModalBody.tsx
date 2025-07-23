@@ -14,9 +14,9 @@ type VehicleHistoryDateModalBodyType = {
   onClose?: () => void;
   onClick?: () => void;
   hasEndDate?: boolean;
-  date: vehicleHistoryStatusRequestBodyType;
-  setDate: Dispatch<SetStateAction<vehicleHistoryStatusRequestBodyType>>;
-  requestState: requestType;
+  date?: vehicleHistoryStatusRequestBodyType;
+  setDate?: Dispatch<SetStateAction<vehicleHistoryStatusRequestBodyType>>;
+  requestState?: requestType;
   isReport?: boolean;
   reportType?: string;
   setReportType?: Dispatch<SetStateAction<string>>;
@@ -60,7 +60,7 @@ const VehicleHistoryDateModalBody = ({
           label="Start Date"
           isRequired
           name="startTime"
-          value={date.startTime}
+          value={date?.startTime}
           onChange={(e) => inputChangeHandler(e, setDate)}
         />
         {hasEndDate && (
@@ -69,7 +69,7 @@ const VehicleHistoryDateModalBody = ({
             label="End Date"
             isRequired
             name="endTime"
-            value={date.endTime}
+            value={date?.endTime}
             onChange={(e) => inputChangeHandler(e, setDate)}
           />
         )}

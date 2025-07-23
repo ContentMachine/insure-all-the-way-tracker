@@ -42,6 +42,7 @@ const ReportsTable = () => {
     reportDate: false,
     report: false,
   });
+  const [date, setDate] = useState("");
 
   return (
     <>

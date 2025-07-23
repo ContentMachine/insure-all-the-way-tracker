@@ -25,10 +25,23 @@ export async function POST(req: NextRequest) {
       body: formBody.toString(),
     });
 
+    if (!response.ok) {
+      console.log(response, "Check");
+      const text = await response.text();
+      console.error("Proxy failed:", response.status, text);
+      return NextResponse.json(
+        { error: "Proxy failed", statusCode: response.status },
+        { status: response.status }
+      );
+    }
+
     const result = await response.json();
     return NextResponse.json(result, { status: response.status });
   } catch (err) {
-    console.error("Proxy error:", err);
-    return NextResponse.json({ error: "Proxy failed" }, { status: 500 });
+    console.log("Proxy error:", err);
+    return NextResponse.json(
+      { error: "There was an error logging you in. Please try again later" },
+      { status: 500 }
+    );
   }
 }
