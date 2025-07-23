@@ -1,17 +1,11 @@
 "use client";
 
-import { requestHandler } from "@/helpers/requestHandler";
 import {
   LOCAL_STORAGE_AUTH_KEY,
   LOCAL_STORAGE_USER_ID,
 } from "@/utilities/constants";
 import { routes } from "@/utilities/routes";
-import {
-  loginDataRequestBody,
-  loginResponseType,
-  requestType,
-  userType,
-} from "@/utilities/types";
+import { loginResponseType, requestType } from "@/utilities/types";
 import { useRouter } from "../../node_modules/next/navigation";
 import {
   createContext,
@@ -22,7 +16,7 @@ import {
 } from "react";
 import { getUser } from "@/services/api";
 import useError from "@/hooks/useError";
-import { TOKEN, USER_ID } from "@/config";
+import { getToken, getUserId } from "@/helpers/authHelpers";
 
 type AuthContextValuesType = {
   user: loginResponseType | null;
@@ -53,8 +47,8 @@ const AuthContextProvider = ({ children }: AuthContextProviderType) => {
   const { errorFlowFunction } = useError();
 
   // Utils
-  const token = TOKEN;
-  const userId = USER_ID;
+  const token = getToken();
+  const userId = getUserId();
 
   const logout = () => {
     setUser(null);

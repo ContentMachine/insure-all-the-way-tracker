@@ -2,7 +2,7 @@ import Close from "@/assets/svgIcons/Close";
 import classes from "./VehicleHistoryDateModalBody.module.css";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   requestType,
   vehicleHistoryStatusRequestBodyType,

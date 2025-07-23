@@ -9,8 +9,8 @@ import { useState } from "react";
 import { requestType, vehicleType } from "@/utilities/types";
 import useError from "@/hooks/useError";
 import { getUserVehicles } from "@/services/api";
-import { TOKEN, USER_ID } from "@/config";
 import Loader from "@/components/Loader/Loader";
+import { getToken, getUserId } from "@/helpers/authHelpers";
 
 const Report = () => {
   // States
@@ -29,8 +29,8 @@ const Report = () => {
     setRequestState({ isLoading: true, data: null, error: null });
     try {
       const response = await getUserVehicles({
-        UserId: USER_ID as string,
-        token: TOKEN as string,
+        UserId: getUserId() as string,
+        token: getToken() as string,
       });
 
       setRequestState((prevState) => {

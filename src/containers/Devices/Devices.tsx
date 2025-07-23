@@ -13,10 +13,10 @@ import {
 } from "@/utilities/types";
 import useError from "@/hooks/useError";
 import { getUserVehicles, getVehicleDataAndStatus } from "@/services/api";
-import { TOKEN, USER_ID } from "@/config";
 import Loader from "@/components/Loader/Loader";
 import { capitalize } from "@/helpers/capitalize";
 import moment from "moment";
+import { getToken, getUserId } from "@/helpers/authHelpers";
 
 const Devices = () => {
   // States
@@ -35,8 +35,8 @@ const Devices = () => {
 
     try {
       const vehiclesResponse = await getUserVehicles({
-        UserId: USER_ID as string,
-        token: TOKEN as string,
+        UserId: getUserId() as string,
+        token: getToken() as string,
       });
 
       const vehicleList = vehiclesResponse?.data?.data || [];
@@ -50,7 +50,7 @@ const Devices = () => {
         getVehicleDataAndStatus({
           carId: String(vehicle.carId),
           mapType: "2",
-          token: TOKEN as string,
+          token: getToken() as string,
         }).then((res) => ({
           carId: vehicle.carId,
           status: res?.data?.data,

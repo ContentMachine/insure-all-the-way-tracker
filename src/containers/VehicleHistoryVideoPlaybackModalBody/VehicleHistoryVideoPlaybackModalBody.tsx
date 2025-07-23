@@ -12,7 +12,6 @@ import { vehicleHistoryType } from "@/utilities/types";
 import classes from "./VehicleHistoryVideoPlaybackModalBody.module.css";
 import Close from "@/assets/svgIcons/Close";
 import { useEffect } from "react";
-import Button from "@/components/Button/Button";
 
 type VehicleHistoryVideoPlaybackModalBodyTypes = {
   onClose: () => void;

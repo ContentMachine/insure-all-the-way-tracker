@@ -1,3 +1,5 @@
+"use client";
+
 import DashboardHeader from "@/containers/DashboardHeader/DashboardHeader";
 import classes from "./DashboardLayout.module.css";
 import DashboardSideNav from "@/containers/DashboardSideNav/DashboardSideNav";

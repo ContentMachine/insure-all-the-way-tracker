@@ -1,3 +1,5 @@
+"use client";
+
 import More from "@/assets/svgIcons/More";
 import classes from "../../containers/DashboardControls/DashboardControls.module.css";
 import { useEffect, useRef, useState } from "react";
@@ -14,17 +16,26 @@ import {
   getVehicleHistory,
 } from "@/services/api";
 import useError from "@/hooks/useError";
-import { TOKEN } from "@/config";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import { formatRelativeTime } from "@/helpers/timeHandlers";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import Modal from "../Modal/Modal";
 import VehicleDetailsModalBody from "@/containers/VehicleDetailsModalBody/VehicleDetailsModalBody";
 import VehicleHistoryDateModalBody from "@/containers/VehicleHistoryDateModalBody/VehicleHistoryDateModalBody";
-import VehicleHistoryVideoPlaybackModalBody from "@/containers/VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody";
 import VehicleReportModalBody from "@/containers/VehicleReportModalBody/VehicleReportModalBody";
 import DeativateVehicleModalBody from "@/containers/DeativateVehicleModalBody/DeativateVehicleModalBody";
 import { CircularProgress } from "@mui/material";
+import { getToken } from "@/helpers/authHelpers";
+import dynamic from "next/dynamic";
+
+// Dynamic imports
+const VehicleHistoryVideoPlaybackModalBody = dynamic(
+  () =>
+    import(
+      "@/containers/VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody"
+    ),
+  { ssr: false }
+);
 
 type VehicleRowType = {
   data: vehicleType;
@@ -80,7 +91,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
       const response = await getVehicleDataAndStatus({
         carId: String(data?.carId),
         mapType: "2",
-        token: TOKEN as string,
+        token: getToken() as string,
       });
 
       if (response) {
@@ -109,7 +120,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
       const response = await getVehicleHistory({
         carId: String(data?.carId),
         ...vehicleDates,
-        token: TOKEN as string,
+        token: getToken() as string,
       });
 
       if (response) {
@@ -141,7 +152,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
       const response = await getVehicleDailyReport({
         carId: String(data?.carId),
         ...vehicleDates,
-        token: TOKEN as string,
+        token: getToken() as string,
       });
 
       if (response) {

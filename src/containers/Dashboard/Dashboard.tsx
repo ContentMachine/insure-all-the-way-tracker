@@ -2,14 +2,20 @@
 
 import DashboardLayout from "@/layouts/DashboardLayout/DashboardLayout";
 import classes from "./Dashboard.module.css";
-import DashboardMapContainer from "../DashboardMapContainer/DashboardMapContainer";
 import DashboardControls from "../DashboardControls/DashboardControls";
 import { useEffect, useState } from "react";
 import { requestType, vehicleType } from "@/utilities/types";
 import { getUserVehicles } from "@/services/api";
-import { TOKEN, USER_ID } from "@/config";
 import useError from "@/hooks/useError";
 import ArrowForward from "@/assets/svgIcons/ArrowForward";
+import dynamic from "next/dynamic";
+import { getToken, getUserId } from "@/helpers/authHelpers";
+
+// Dynamic imports
+const DashboardMapContainer = dynamic(
+  () => import("../DashboardMapContainer/DashboardMapContainer"),
+  { ssr: false }
+);
 
 const Dashboard = () => {
   // States
@@ -29,8 +35,8 @@ const Dashboard = () => {
     setRequestState({ isLoading: true, data: null, error: null });
     try {
       const response = await getUserVehicles({
-        UserId: USER_ID as string,
-        token: TOKEN as string,
+        UserId: getUserId() as string,
+        token: getToken() as string,
       });
 
       setRequestState((prevState) => {

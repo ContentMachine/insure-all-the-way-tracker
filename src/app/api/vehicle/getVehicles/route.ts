@@ -1,4 +1,4 @@
-import { BASE_API_URL, TOKEN } from "@/config";
+import { BASE_API_URL } from "@/config";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {

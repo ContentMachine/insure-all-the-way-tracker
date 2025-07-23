@@ -1,3 +1,5 @@
+"use client";
+
 import Logo from "@/components/Logo/Logo";
 import classes from "./DashboardSideNav.module.css";
 import { dashboardRoutes, routes } from "@/utilities/routes";

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AuthContext } from "@/context/AuthContext";
 import { routes } from "@/utilities/routes";
 import Loader from "../../components/Loader/Loader";
-import { LOCAL_STORAGE_AUTH_KEY } from "@/utilities/constants";
+import { getToken } from "@/helpers/authHelpers";
 
 type RequireAuthProps = {
   children: React.ReactNode;
@@ -19,9 +19,7 @@ const RequireAuth = ({ children }: RequireAuthProps) => {
   const { requestState } = useContext(AuthContext);
 
   // Local
-  const accessToken =
-    typeof window !== "undefined" &&
-    localStorage.getItem(LOCAL_STORAGE_AUTH_KEY);
+  const accessToken = getToken();
 
   useEffect(() => {
     if (!requestState?.isLoading && !accessToken) {
