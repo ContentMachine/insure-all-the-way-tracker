@@ -24,7 +24,7 @@ type InputProps = {
   onKeyup?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onFocus?: () => void;
   min?: number | string | any;
-  max?: number | string;
+  max?: number | string | any;
   loading?: boolean;
 };
 

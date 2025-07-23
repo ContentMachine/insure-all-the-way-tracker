@@ -59,7 +59,7 @@ const VehicleHistoryVideoPlaybackModalBody = ({
       <MapContainer
         center={start}
         zoom={15}
-        style={{ height: "700px", width: "100%" }}
+        style={{ height: "80svh", width: "100%" }}
       >
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"

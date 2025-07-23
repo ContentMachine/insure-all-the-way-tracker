@@ -9,6 +9,7 @@ import {
 } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import Dropdown from "@/components/Dropdown/Dropdown";
+import moment from "moment";
 
 type VehicleHistoryDateModalBodyType = {
   onClose?: () => void;
@@ -41,6 +42,9 @@ const VehicleHistoryDateModalBody = ({
   setReportType,
   isReport,
 }: VehicleHistoryDateModalBodyType) => {
+  // Utils
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className={classes.container}>
       <Close onClick={onClose} />
@@ -62,6 +66,7 @@ const VehicleHistoryDateModalBody = ({
           name="startTime"
           value={date?.startTime}
           onChange={(e) => inputChangeHandler(e, setDate)}
+          max={today}
         />
         {hasEndDate && (
           <Input
@@ -71,6 +76,7 @@ const VehicleHistoryDateModalBody = ({
             name="endTime"
             value={date?.endTime}
             onChange={(e) => inputChangeHandler(e, setDate)}
+            max={today}
           />
         )}
 

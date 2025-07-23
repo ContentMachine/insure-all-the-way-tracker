@@ -2,7 +2,7 @@
   overflow-y: auto;
   height: 100vh;
   padding: 2rem;
-  z-index: 560;
+  position: relative;
 }
 
 .container > div:nth-child(1) {

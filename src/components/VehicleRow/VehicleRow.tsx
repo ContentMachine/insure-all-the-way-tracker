@@ -245,6 +245,10 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
     }
   };
 
+  const rawMachineName = data?.machineName?.split("-");
+  const capitalizedCarNumber = capitalize(rawMachineName[0]);
+  const machineName = `${capitalizedCarNumber} ${rawMachineName[1]}`;
+
   return (
     <>
       {modals?.vehicleDetails && (
@@ -346,7 +350,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
           }
         }}
       >
-        <h5>{capitalize(data?.machineName)}</h5>
+        <h5>{machineName}</h5>
         {vehicleStatusRequestState?.isLoading ? (
           <span className={classes.loader}>
             <CircularProgress

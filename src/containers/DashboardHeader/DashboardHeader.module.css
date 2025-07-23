@@ -7,7 +7,7 @@
   position: sticky;
   top: 0;
   background-color: var(--white);
-  z-index: 10;
+  z-index: 540;
   border-bottom: 1px solid var(--grey);
 }
 
@@ -86,7 +86,7 @@
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 200;
+  z-index: 520;
   background-color: var(--white);
   overflow: hidden;
   width: 0%;
