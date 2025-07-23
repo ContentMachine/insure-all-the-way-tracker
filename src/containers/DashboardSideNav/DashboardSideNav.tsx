@@ -73,7 +73,7 @@ const DashboardSideNav = () => {
       <nav
         className={classes.container}
         style={
-          isWide ? { flexBasis: "250px" } : { flexBasis: "100px", width: "0px" }
+          isWide ? { flexBasis: "200px" } : { flexBasis: "80px", width: "0px" }
         }
         ref={containerRef}
       >

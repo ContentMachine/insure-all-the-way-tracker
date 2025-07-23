@@ -9,6 +9,7 @@ type RequestHandlerOptions = {
   headers?: HeadersInit;
   isMultipart?: boolean;
   useProxy?: boolean;
+  state: requestType;
   setState?: Dispatch<SetStateAction<requestType>>;
   successFunction?: (res: any) => void;
   errorFunction?: (err: any) => void;

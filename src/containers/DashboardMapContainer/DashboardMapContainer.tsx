@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import classes from "./DashboardMapContainer.module.css";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
@@ -64,9 +64,7 @@ function DashboardMapContainer() {
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={position as any} icon={customIcon}>
-              <Popup></Popup>
-            </Marker>
+            <Marker position={position as any} icon={customIcon}></Marker>
             <RecenterMap position={position as [number, number]} />
           </MapContainer>
         </>

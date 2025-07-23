@@ -1,6 +1,6 @@
 .container {
   padding: 1rem;
-  flex-basis: 250px;
+  flex-basis: 200px;
   transition: all 0.2s ease-in-out;
   border-right: 1px solid var(--grey);
 }
