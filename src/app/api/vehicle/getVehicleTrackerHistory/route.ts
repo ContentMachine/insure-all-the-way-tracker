@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { token, carId, startTime, endTime } = body;
+  const { token, carId, startTime, endTime, filter } = body;
 
   if (!carId || !startTime || !endTime) {
     return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
@@ -14,6 +14,7 @@ export async function POST(req: NextRequest) {
     carId,
     startTime,
     endTime,
+    filter,
   });
 
   try {
@@ -21,6 +22,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        token,
       },
       body: formBody.toString(),
     });

@@ -9,7 +9,6 @@ import {
 } from "@/utilities/types";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import Dropdown from "@/components/Dropdown/Dropdown";
-import moment from "moment";
 
 type VehicleHistoryDateModalBodyType = {
   onClose?: () => void;
@@ -84,7 +83,9 @@ const VehicleHistoryDateModalBody = ({
           disabled={!date?.startTime || (hasEndDate && !date?.endTime)}
           onClick={(e) => {
             e.preventDefault();
-            if (onClick) onClick();
+            if (onClick) {
+              onClick();
+            }
           }}
           loading={
             requestState?.isLoading &&

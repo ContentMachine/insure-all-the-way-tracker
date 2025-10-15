@@ -6,6 +6,9 @@ export const LOCAL_STORAGE_USER_ID = "iatw-auth-tracker-userId";
 export const TABLE_LENGTH = 5;
 
 export const TODAY = moment().format("YYYY-MM-DD");
+export const MAX_DATE_FILTER = moment()
+  .subtract(14, "days")
+  .format("YYYY-MM-DD");
 
 export const GENDERS = ["male", "female", "prefer not to say"];
 

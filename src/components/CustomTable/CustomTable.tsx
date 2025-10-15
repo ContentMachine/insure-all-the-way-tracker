@@ -15,6 +15,7 @@ import React, {
 import classes from "./CustomTable.module.css";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
+import { formatCurrencyWithoutTrailingDecimals } from "@/helpers/formatAmount";
 
 export type TableOption = {
   text: string;
@@ -136,7 +137,10 @@ const CustomTable: React.FC<CustomTableProps> = ({
                 }}
               >
                 {fields.map((field, colIndex) => {
-                  if (field?.includes("Date")) {
+                  if (
+                    field?.includes("Date") ||
+                    field?.toLowerCase()?.includes("Day")
+                  ) {
                     return (
                       <span key={colIndex} className={classes.tableBody}>
                         <span
@@ -157,7 +161,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                   return (
                     <span key={colIndex} className={classes.tableBody}>
                       {row[field] !== undefined || row[field] !== null
-                        ? structureWords(String(row[field]))
+                        ? String(row[field])
                         : "No data"}
                     </span>
                   );
@@ -199,7 +203,6 @@ const CustomTable: React.FC<CustomTableProps> = ({
           })
         ) : (
           data?.slice(0, sliceValue).map((row, rowIndex) => {
-            const daysLeft = row?.daysLeft;
             return (
               <div
                 key={rowIndex}
@@ -210,31 +213,52 @@ const CustomTable: React.FC<CustomTableProps> = ({
                 }}
               >
                 {fields.map((field, colIndex) => {
-                  if (field?.includes("Date")) {
+                  if (
+                    field?.includes("Date") ||
+                    field.toLowerCase()?.includes("day") ||
+                    field.toLowerCase() === "starttime" ||
+                    field.toLowerCase() === "endtime"
+                  ) {
                     return (
                       <span key={colIndex} className={classes.tableBody}>
-                        <span
-                          className={`${
-                            daysLeft < 14
-                              ? classes?.late
-                              : daysLeft >= 14 && daysLeft < 60
-                              ? classes.midLate
-                              : classes.early
-                          }`}
-                        >
+                        <span className={`${classes.early}`}>
                           {row[field] !== undefined && row[field] !== null
-                            ? capitalize(String(row[field]))
+                            ? moment(row[field]).format("Do MMM, YYYY")
                             : ""}
                         </span>
                       </span>
                     );
                   }
 
+                  if (field.toLowerCase() === "stoptime") {
+                    const duration = moment.duration(row[field], "seconds");
+                    const humanized = duration.humanize();
+                    return (
+                      <span key={colIndex} className={classes.tableBody}>
+                        {humanized}
+                      </span>
+                    );
+                  }
+
                   return (
                     <span key={colIndex} className={classes.tableBody}>
-                      {row[field] !== undefined && row[field] !== null
-                        ? structureWords(String(row[field]))
-                        : `No ${field}`}
+                      {(() => {
+                        const value = row[field];
+
+                        if (
+                          value === undefined ||
+                          value === null ||
+                          value < 0
+                        ) {
+                          return `No data`;
+                        }
+
+                        if (!isNaN(Number(value)) && value !== "") {
+                          return Number(value);
+                        }
+
+                        return structureWords(String(value));
+                      })()}
                     </span>
                   );
                 })}

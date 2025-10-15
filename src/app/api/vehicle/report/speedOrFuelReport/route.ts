@@ -18,11 +18,12 @@ export async function POST(req: NextRequest) {
 
   try {
     const response = await fetch(
-      `${BASE_API_URL}/report/querySpeedFuelReport.do`,
+      `${BASE_API_URL}/position/getOverSpeedDetail.do`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          token,
         },
         body: formBody.toString(),
       }
@@ -35,7 +36,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         error:
-          "There was an error getting vehicle mileage report. Please try again later",
+          "There was an error getting vehicle speed report. Please try again later",
       },
       { status: 500 }
     );

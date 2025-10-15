@@ -6,7 +6,10 @@ import {
   CardDecoration1,
   CardDecoration2,
 } from "@/assets/svgIcons/PoliciesSummaryCardDecoration";
-import { formatCurrency } from "@/helpers/formatAmount";
+import {
+  formatCurrency,
+  formatCurrencyWithoutTrailingDecimals,
+} from "@/helpers/formatAmount";
 import classes from "./PoliciesSummaryCard.module.css";
 
 type AmountDetailsCardTypes = {
@@ -33,7 +36,12 @@ const PoliciesSummaryCard = ({
     <div className={classes.container} style={{ backgroundColor }}>
       <div className={classes.overlay}></div>
       <span>{title}</span>
-      <h2> {notAmount ? amount || 0 : `₦${formatCurrency(amount)}`}</h2>
+      <h2>
+        {" "}
+        {notAmount
+          ? formatCurrencyWithoutTrailingDecimals(amount) || 0
+          : `₦${formatCurrency(amount)}`}
+      </h2>
       {cta && (
         <div>
           <span>{cta.text}</span>

@@ -2,3 +2,7 @@
   padding: 1rem;
   width: 100%;
 }
+
+.container > section:nth-child(2) {
+  margin-bottom: 2rem;
+}

@@ -73,54 +73,39 @@ const DashboardSideNav = () => {
         />
       )}
       <nav
-        className={classes.container}
-        style={
-          isWide ? { flexBasis: "200px" } : { flexBasis: "80px", width: "0px" }
-        }
+        className={`${classes.container} ${
+          isWide ? classes.expanded : classes.collapsed
+        }`}
         ref={containerRef}
       >
-        <Logo className={!isWide ? classes.inVisible : classes.visible} />
+        <Logo className={isWide ? classes.visible : classes.inVisible} />
 
-        {isWide ? (
-          <ul>
-            {dashboardRoutes?.map((data) => {
-              return (
-                <li
-                  className={
-                    pathname === data?.route ? classes.active : classes.inActive
-                  }
-                >
-                  <Link href={data?.route}>
-                    {data?.icon}
-                    <span>{data?.title}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        ) : (
-          <ul>
-            {dashboardRoutes?.map((data) => {
-              return (
-                <li
-                  key={data?.route}
-                  className={
-                    pathname === data?.route ? classes.active : classes.inActive
-                  }
-                >
-                  <Link href={data?.route}>{data?.icon}</Link>
-                </li>
-              );
-            })}
-          </ul>
-        )}
+        <ul className={classes.list}>
+          {dashboardRoutes?.map((data) => (
+            <li
+              key={data?.route}
+              className={
+                pathname === data?.route ? classes.active : classes.inActive
+              }
+            >
+              <Link href={data?.route}>
+                {data?.icon}
+                <span className={isWide ? classes.showText : classes.hideText}>
+                  {data?.title}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
 
         <div
           className={classes.logout}
           onClick={() => setModalTrue(setModals, "logout")}
         >
           <Logout />
-          {isWide && <span>Logout</span>}
+          <span className={isWide ? classes.showText : classes.hideText}>
+            Logout
+          </span>
         </div>
       </nav>
     </>

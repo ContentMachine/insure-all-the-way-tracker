@@ -17,10 +17,11 @@ export async function POST(req: NextRequest) {
   });
 
   try {
-    const response = await fetch(`${BASE_API_URL}/report/queryStopReport.do`, {
+    const response = await fetch(`${BASE_API_URL}/position/getStopDetail.do`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        token,
       },
       body: formBody.toString(),
     });

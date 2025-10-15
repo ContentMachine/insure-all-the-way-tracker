@@ -1,33 +1,55 @@
 .container {
-  padding: 1rem;
-  flex-basis: 200px;
-  transition: all 0.2s ease-in-out;
+  padding: 2rem 1rem;
   border-right: 1px solid var(--grey);
-}
-
-.container > a {
-  margin-bottom: 3rem;
-  width: 90px;
-  animation: appear 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  overflow: hidden;
+  transition: width 0.25s ease-in-out;
+  width: 80px;
+  gap: 3rem;
 }
 
 .visible {
-  transition: all 0.2s ease-in-out;
+  visibility: visible;
 }
 
 .inVisible {
   visibility: hidden;
-  width: 0px;
-  animation: appear 0.2s ease-in-out;
 }
 
-.container > ul {
-  list-style-type: none;
-  animation: appear 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+.container.expanded {
+  width: 200px;
 }
 
-.container > ul > li > a,
+.container.collapsed {
+  width: 80px;
+}
+
+.showText {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hideText {
+  opacity: 0;
+  transform: translateX(-10px);
+  width: 0;
+  overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.list {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.list > li a,
 .logout {
   display: flex;
   align-items: center;
@@ -36,33 +58,11 @@
   padding: 0.5rem;
   border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.container > ul > li > a:hover,
+.list > li a:hover,
 .logout:hover,
 .active {
   background-color: var(--grey);
-}
-
-.container > ul > li > a > span,
-.logout > span {
-  font-family: General Sans;
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 120%;
-  letter-spacing: -1px;
-  flex-basis: 100%;
-}
-
-.logout {
-  margin-top: 5rem;
-}
-
-@keyframes appear {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }

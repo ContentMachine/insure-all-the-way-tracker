@@ -1,4 +1,8 @@
 import Road from "@/assets/svgIcons/Road";
+import {
+  formatCurrency,
+  formatCurrencyWithoutTrailingDecimals,
+} from "@/helpers/formatAmount";
 import classes from "./ReportCard.module.css";
 
 type ReportCardTypes = {
@@ -11,7 +15,7 @@ const ReportCard = ({ icon, value, quantity }: ReportCardTypes) => {
   return (
     <div className={classes.container}>
       <span>{icon || <Road />}</span>
-      <h4>{value || 0}</h4>
+      <h4>{formatCurrencyWithoutTrailingDecimals(value || 0)}</h4>
       <p>{quantity}</p>
     </div>
   );

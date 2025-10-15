@@ -17,26 +17,22 @@ export async function POST(req: NextRequest) {
   });
 
   try {
-    const response = await fetch(
-      `${BASE_API_URL}/position/mileageStaByDay.do`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          token,
-        },
-        body: formBody.toString(),
-      }
-    );
+    const response = await fetch(`${BASE_API_URL}/position/distanceSta.do`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        token,
+      },
+      body: formBody.toString(),
+    });
 
     const result = await response.json();
     return NextResponse.json(result, { status: response.status });
   } catch (err) {
-    console.error("Proxy error:", err);
     return NextResponse.json(
       {
         error:
-          "There was an error getting vehicle mileage report. Please try again later",
+          "There was an error getting vehicle travel statistics. Please try again later",
       },
       { status: 500 }
     );

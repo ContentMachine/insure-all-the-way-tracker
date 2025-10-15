@@ -1,4 +1,5 @@
 import {
+  agentResponseType,
   getUserRequestBodyType,
   getUserVehicleRequestBodyType,
   loginDataRequestBody,
@@ -20,6 +21,13 @@ export const login = (data: loginDataRequestBody) => {
 
 export const getUser = (data: getUserRequestBodyType) => {
   return axiosInstance.post<ResponseType<loginResponseType>>(
+    "/api/auth/me",
+    JSON.stringify(data)
+  );
+};
+
+export const getUserAgent = (data: getUserRequestBodyType) => {
+  return axiosInstance.post<ResponseType<agentResponseType>>(
     "/api/auth/me",
     JSON.stringify(data)
   );
@@ -89,6 +97,15 @@ export const getVehicleStopReport = (
 ) => {
   return axiosInstance.post<ResponseType<any>>(
     "/api/vehicle/report/stopReport",
+    JSON.stringify(data)
+  );
+};
+
+export const getVehicleTravelStats = (
+  data: vehicleHistoryStatusRequestBodyType
+) => {
+  return axiosInstance.post<ResponseType<any>>(
+    "/api/vehicle/report/travelReport",
     JSON.stringify(data)
   );
 };

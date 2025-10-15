@@ -220,6 +220,33 @@ export type loginResponseType = {
   userType: number;
 };
 
+export type agentResponseType = {
+  ret: number;
+  dialog: boolean;
+  code: string;
+  data: {
+    linkPhone: string;
+    timeZoneSecond: number;
+    parentLink: string;
+    address: string;
+    joinTime: string;
+    entId: number;
+    available: boolean;
+    updateTime: string;
+    remark: string;
+    indexParentLink: string;
+    userName: string;
+    userId: number;
+    linkMan: string;
+    parentId: number;
+    subAlarm: boolean;
+    name: string;
+    lang: string;
+    email: string;
+  };
+  time: number;
+};
+
 export type getUserRequestBodyType = {
   token: string;
   userId: string;
@@ -253,6 +280,8 @@ export type vehicleType = {
   updateTime: string;
   userId: number;
   isActive?: boolean;
+  id?: string;
+  title?: string;
 };
 
 export type vehicleStatusRequestBodyType = {
@@ -262,10 +291,14 @@ export type vehicleStatusRequestBodyType = {
 };
 
 export type vehicleHistoryStatusRequestBodyType = {
-  carId?: string;
+  userId?: string | number;
   startTime: string;
   endTime?: string;
   token?: string;
+  carId?: string;
+  rowCount?: number;
+  pageNO?: number;
+  filter?: boolean;
 };
 
 export type carStatusType = {
@@ -374,4 +407,18 @@ export type vehicleTableStatsType = {
   offlineDevices: number;
   onlineDevices: number;
   expiredDevices: number;
+};
+
+export type statsOverviewType = {
+  carId: string;
+  fuelConsumptionSum: number;
+  machineName: string;
+  mileage: number;
+  overSpeedCount: number;
+  stopCount: number;
+};
+
+export type dateRequestType = {
+  startTime: string | Date;
+  endTime: string | Date;
 };

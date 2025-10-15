@@ -16,6 +16,7 @@ export type DropdownProps = {
   errorMessage?: string;
   onOpen?: () => void;
   maxHeight?: string;
+  placeholder?: string;
 };
 
 const Dropdown = (props: DropdownProps) => {
@@ -123,7 +124,8 @@ const Dropdown = (props: DropdownProps) => {
         >
           {props?.selected ||
             props?.title ||
-            `Select ${props.label?.toLowerCase()}`}
+            props.placeholder ||
+            `Select ${props.label?.toLowerCase() || ""}`}
           <svg
             width="16"
             height="16"

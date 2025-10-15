@@ -2,7 +2,7 @@
 
 import More from "@/assets/svgIcons/More";
 import classes from "../../containers/DashboardControls/DashboardControls.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import {
   modalGenericType,
   requestType,
@@ -14,6 +14,7 @@ import {
   getVehicleDailyReport,
   getVehicleDataAndStatus,
   getVehicleHistory,
+  getVehicleMileagereport,
 } from "@/services/api";
 import useError from "@/hooks/useError";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
@@ -27,6 +28,9 @@ import DeativateVehicleModalBody from "@/containers/DeativateVehicleModalBody/De
 import { CircularProgress } from "@mui/material";
 import { getToken } from "@/helpers/authHelpers";
 import dynamic from "next/dynamic";
+import { AuthContext } from "@/context/AuthContext";
+import moment from "moment";
+import { PARENT_ID } from "@/config";
 
 // Dynamic imports
 const VehicleHistoryVideoPlaybackModalBody = dynamic(
@@ -78,6 +82,9 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
   const { errorFlowFunction } = useError();
   const { updateConcurrentSearchParams } = useUpdateSearchParams();
 
+  // Context
+  const { user } = useContext(AuthContext);
+
   // Requests
   const handleGetvehicleStatusInfo = async () => {
     setVehicleStatusRequestState({
@@ -119,8 +126,12 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
     try {
       const response = await getVehicleHistory({
         carId: String(data?.carId),
-        ...vehicleDates,
+        startTime: moment(vehicleDates?.startTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        endTime: moment(vehicleDates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
         token: getToken() as string,
+        filter: false,
       });
 
       if (response) {
@@ -150,14 +161,61 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
 
     try {
       const response = await getVehicleDailyReport({
-        carId: String(data?.carId),
-        ...vehicleDates,
+        userId: user?.userId,
+        startTime: moment(vehicleDates?.startTime).format(
+          "YYYY-MM-DD HH:mm:ss"
+        ),
+        endTime: moment(vehicleDates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
+        token: getToken() as string,
+        rowCount: 20,
+        pageNO: 1,
+      });
+
+      if (response) {
+        setRequestState((prevState) => {
+          return {
+            ...prevState,
+            data: response?.data?.data,
+            id: "overall-report",
+          };
+        });
+        setAllModalsFalse(setModals);
+        setModalTrue(setModals, "report");
+      }
+    } catch (error) {
+      errorFlowFunction(error);
+    } finally {
+      setRequestState((prevState) => {
+        return { ...prevState, isLoading: false };
+      });
+    }
+  };
+
+  const handleGetMileageReport = async () => {
+    setRequestState({
+      isLoading: true,
+      data: null,
+      error: null,
+      id: "mileage-report",
+    });
+
+    try {
+      const response = await getVehicleMileagereport({
+        carId: String(data?.carId) as string,
+        startTime: moment(vehicleDates?.startTime).format(
+          "YYYY-MM-DD:HH:mm:ss"
+        ),
+        endTime: moment(vehicleDates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
         token: getToken() as string,
       });
 
       if (response) {
         setRequestState((prevState) => {
-          return { ...prevState, data: response?.data?.data };
+          return {
+            ...prevState,
+            data: response?.data?.data,
+            id: "mileage-report",
+          };
         });
         setAllModalsFalse(setModals);
         setModalTrue(setModals, "report");
@@ -181,11 +239,11 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
       title: "View Vehicle History",
       onClick: () => setModalTrue(setModals, "vehicleHistoryDate"),
     },
+
     {
-      title: "Vehicle Geofencing",
-      onClick: () => setModalTrue(setModals, "vehicleHistoryDate"),
+      title: "Generate Vehicle Report",
+      onClick: () => setModalTrue(setModals, "reportDate"),
     },
-    { title: "Report", onClick: () => setModalTrue(setModals, "reportDate") },
     {
       title: "Deactivate Vehicle",
       onClick: () => setModalTrue(setModals, "deactivate"),
@@ -312,7 +370,6 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
               requestState={requestState}
               reportType={reportType}
               setReportType={setReportType}
-              isReport
             />
           }
         />
@@ -324,6 +381,8 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
           body={
             <VehicleReportModalBody
               onClose={() => setAllModalsFalse(setModals)}
+              carId={data?.carId}
+              data={requestState?.id === "overall-report" && requestState?.data}
             />
           }
         />

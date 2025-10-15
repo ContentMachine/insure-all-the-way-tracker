@@ -3,24 +3,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { token, carId, startTime, endTime } = body;
+  const { token, userId, startTime, endTime, rowCount = 20, pageNO = 0 } = body;
 
-  if (!carId || !startTime || !endTime) {
+  if (!userId || !startTime || !endTime) {
     return NextResponse.json({ error: "Missing credentials" }, { status: 400 });
   }
 
   const formBody = new URLSearchParams({
-    token,
-    carId,
+    // token,
+    userId,
     startTime,
     endTime,
+    rowCount,
+    pageNO,
   });
 
   try {
-    const response = await fetch(`${BASE_API_URL}/report/queryDailyReport.do`, {
+    const response = await fetch(`${BASE_API_URL}/position/getStaOverview.do`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        token,
       },
       body: formBody.toString(),
     });

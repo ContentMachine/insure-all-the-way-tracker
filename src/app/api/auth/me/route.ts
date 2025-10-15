@@ -19,6 +19,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        token,
       },
       body: formBody.toString(),
     });

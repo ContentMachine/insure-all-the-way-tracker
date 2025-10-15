@@ -1,7 +1,6 @@
 .container {
-  width: 80vw;
+  width: 1100px;
   padding: 2rem;
-  min-height: 70vh;
   position: relative;
 }
 
