@@ -83,13 +83,13 @@ const ReportStats: React.FC<Props> = ({ dates, setDates }) => {
     return requestState?.data?.find(
       (data: any) => String(data?.carId) === String(carId)
     );
-  }, [carId, requestState?.data]);
+  }, [carId, requestState]);
 
   useEffect(() => {
-    if (dates && carId) {
+    if ((dates?.startTime || dates.endTime) && carId) {
       handleGetvehicleReport();
     }
-  }, [dates]);
+  }, [dates, carId]);
 
   if (requestState?.isLoading) {
     return <Loader />;
