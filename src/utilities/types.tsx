@@ -1,3 +1,5 @@
+import { LatLngBoundsExpression, LatLngExpression } from "leaflet";
+
 export type modalGenericType = {
   [key: string]: boolean;
 };
@@ -421,4 +423,38 @@ export type statsOverviewType = {
 export type dateRequestType = {
   startTime: string | Date;
   endTime: string | Date;
+};
+
+export type allPositionsExpression = {
+  startPosition: LatLngExpression;
+  endPosition?: LatLngExpression;
+};
+
+export type travelReportResponseData = {
+  averageSpeed: number;
+  carId: number;
+  endLat: LatLngExpression;
+  endLatC: LatLngExpression;
+  endLon: LatLngExpression;
+  endLonC: LatLngExpression;
+  endTime: string;
+  imei: string;
+  maxSpeed: number;
+  mileage: number;
+  startLat: LatLngExpression;
+  startLatC: LatLngExpression;
+  startLon: LatLngExpression;
+  startLonC: LatLngExpression;
+  startTime: LatLngExpression;
+};
+
+export type stopReportresponseType = {
+  latc: number;
+  startTime: string;
+  stopTime: number;
+  lon: number;
+  lonc: number;
+  endTime: string;
+  lat: number;
+  carId: number;
 };

@@ -60,12 +60,15 @@
 
 @media screen and (max-width: 767px) {
   .container {
-    gap: 8px;
+    gap: 6px;
     overflow: auto;
   }
 
   .container > div {
     flex-shrink: 0;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 150%;
   }
 }
 

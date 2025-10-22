@@ -1,10 +1,12 @@
 .container {
   background-color: var(--black);
   padding: 1rem;
+  min-width: 327px;
   min-height: 138px;
   color: var(--white);
   border-radius: 10px;
   position: relative;
+  flex-basis: 25%;
 }
 
 .overlay {
@@ -26,7 +28,7 @@
 
 .container > span {
   font-family: General Sans;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
   z-index: 2;
   position: relative;
@@ -78,12 +80,14 @@
   bottom: 0;
   left: 0;
   z-index: 1;
+  display: none;
 }
 
 @media screen and (max-width: 767px) {
   .container {
-    padding: 1rem;
-    min-height: 118px;
+    padding: 0.5rem 1rem;
+    min-width: 47%;
+    min-height: 58px;
   }
 
   .container > span {
@@ -91,10 +95,10 @@
   }
 
   .container > h2 {
-    font-size: 24px;
+    font-size: 18px;
   }
 
   .container > div > span {
-    font-size: 12px;
+    font-size: 14px;
   }
 }

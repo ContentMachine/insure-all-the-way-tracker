@@ -3,9 +3,7 @@
 import Logo from "@/components/Logo/Logo";
 import classes from "./DashboardHeader.module.css";
 import User from "@/assets/svgIcons/User";
-import { dashboardRoutes } from "@/utilities/routes";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Logout from "@/assets/svgIcons/Logout";
 import { useContext, useEffect, useRef, useState } from "react";
 import Modal from "@/components/Modal/Modal";

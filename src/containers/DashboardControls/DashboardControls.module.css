@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: 1rem;
   transition: all 0.2s ease-in-out;
+  /* overflow-y: auto; */
 }
 
 .container > div:nth-child(1) {
@@ -53,7 +54,7 @@
 
 .vehicle > h5 {
   font-family: General Sans;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   line-height: 140%;
 }
@@ -96,7 +97,7 @@
   min-height: 100px;
   position: absolute;
   top: 100%;
-  left: 90%;
+  right: 0%;
   z-index: 5;
   background-color: var(--white);
   border-radius: 5px;

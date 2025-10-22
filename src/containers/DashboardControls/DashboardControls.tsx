@@ -66,12 +66,6 @@ const DashboardControls = ({
             )}
           </div>
         </div>
-        {/* <Button
-          type="delete"
-          onClick={() => setModalTrue(setModals, "deactivate")}
-        >
-          Deactivate this device
-        </Button> */}
       </section>
     </>
   );

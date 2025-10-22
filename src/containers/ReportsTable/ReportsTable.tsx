@@ -10,10 +10,13 @@ import {
 } from "react";
 import { setAllModalsFalse, setModalTrue } from "@/helpers/modalHandlers";
 import {
+  allPositionsExpression,
   dateRequestType,
   modalGenericType,
   navItemTypes,
   requestType,
+  stopReportresponseType,
+  travelReportResponseData,
   vehicleType,
 } from "@/utilities/types";
 import Modal from "@/components/Modal/Modal";
@@ -37,6 +40,18 @@ import {
 import useError from "@/hooks/useError";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import Loader from "@/components/Loader/Loader";
+import dynamic from "next/dynamic";
+import MapContainer from "../MapContainer/MapContainer";
+import { LatLngExpression } from "leaflet";
+import { backDate } from "@/helpers/dateHandlers";
+// Dynamic imports
+const VehicleHistoryVideoPlaybackModalBody = dynamic(
+  () =>
+    import(
+      "@/containers/VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody"
+    ),
+  { ssr: false }
+);
 
 interface Props {
   dates: dateRequestType;
@@ -65,11 +80,11 @@ const headers = {
     "Longitude",
   ],
   "travel-statistics": [
-    "Stop Start Date",
-    "Stop End Date",
-    "Stop Duration",
-    "Latitude",
-    "Longitude",
+    "Travel Start Date/Time",
+    "Travel Ennd Date/Time",
+    "Average Speed (KM/H)",
+    "Maximum Speed (KM/H)",
+    "Mileage (KM)",
   ],
 };
 
@@ -77,7 +92,13 @@ const fields = {
   "mileage-report": ["day", "mileage", "fuelConsumptionSum", "stopCount"],
   "stop-report": ["startTime", "endTime", "stopTime", "lon", "lat"],
   "speed-report": ["startTime", "endTime", "stopTime", "lon", "lat"],
-  "travel-statistics": ["startTime", "endTime", "stopTime", "lon", "lat"],
+  "travel-statistics": [
+    "startTime",
+    "endTime",
+    "averageSpeed",
+    "maxSpeed",
+    "mileage",
+  ],
 };
 
 const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
@@ -85,6 +106,7 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
   const [modals, setModals] = useState<modalGenericType>({
     reportDate: false,
     report: false,
+    travelHistoryPlayback: false,
   });
 
   const [showDateSelector, setSHowDateSelector] = useState(false);
@@ -115,6 +137,35 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
     data: null,
     error: null,
   });
+  const [activePosition, setActivePosition] =
+    useState<allPositionsExpression | null>(null);
+
+  // Utils
+  const options = {
+    "travel-statistics": [
+      {
+        text: "View on map",
+        action: (data: travelReportResponseData) => {
+          setActivePosition({
+            startPosition: [data?.startLat as any, data?.startLon as any],
+            endPosition: [data?.endLat as any, data?.endLon as any],
+          });
+          setModalTrue(setModals, "travelHistoryPlayback");
+        },
+      },
+    ],
+    "stop-report": [
+      {
+        text: "View on map",
+        action: (data: stopReportresponseType) => {
+          setActivePosition({
+            startPosition: [data?.lat as any, data?.lon as any],
+          });
+          setModalTrue(setModals, "travelHistoryPlayback");
+        },
+      },
+    ],
+  };
 
   // Hooks
   const { errorFlowFunction } = useError();
@@ -141,8 +192,8 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
     try {
       const response = await getVehicleMileagereport({
         carId: carId as string,
-        startTime: moment(dates?.startTime).format("YYYY-MM-DD:HH:mm:ss"),
-        endTime: moment(dates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
+        startTime: moment(dates?.startTime).format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment(dates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
         token: getToken() as string,
       });
 
@@ -177,8 +228,8 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
     try {
       const response = await getVehicleStopReport({
         carId: carId as string,
-        startTime: moment(dates?.startTime).format("YYYY-MM-DD:HH:mm:ss"),
-        endTime: moment(dates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
+        startTime: moment(dates?.startTime).format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment(dates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
         token: getToken() as string,
       });
 
@@ -211,8 +262,8 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
     try {
       const response = await getVehicleSpeedOrFuelReport({
         carId: carId as string,
-        startTime: moment(dates?.startTime).format("YYYY-MM-DD:HH:mm:ss"),
-        endTime: moment(dates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
+        startTime: moment(dates?.startTime).format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment(dates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
         token: getToken() as string,
       });
 
@@ -245,8 +296,8 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
     try {
       const response = await getVehicleTravelStats({
         carId: carId as string,
-        startTime: moment(dates?.startTime).format("YYYY-MM-DD:HH:mm:ss"),
-        endTime: moment(dates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
+        startTime: moment(dates?.startTime).format("YYYY-MM-DD HH:mm:ss"),
+        endTime: moment(dates?.endTime).format("YYYY-MM-DD HH:mm:ss"),
         token: getToken() as string,
       });
 
@@ -322,6 +373,24 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
         />
       )}
 
+      {modals?.travelHistoryPlayback && (
+        <Modal
+          onClick={() => setAllModalsFalse(setModals)}
+          body={
+            <MapContainer
+              position={activePosition?.startPosition as LatLngExpression}
+              endPosition={activePosition?.endPosition as LatLngExpression}
+              onClose={() => setAllModalsFalse(setModals)}
+              title={
+                activeNav?.id === "travel-statistics"
+                  ? `Travel History`
+                  : "View Stop on Map"
+              }
+            />
+          }
+        />
+      )}
+
       <section className={classes.container}>
         <div className={classes.filterSection}>
           <SectionsNav navItems={navItems} setNavItems={setNavItems} />
@@ -343,7 +412,7 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
                 name="startTime"
                 onChange={(e) => inputChangeHandler(e, setDates)}
                 max={TODAY}
-                min={MAX_DATE_FILTER}
+                min={backDate(30)}
               />
               <Input
                 type="date"
@@ -352,11 +421,8 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
                 name="endTime"
                 onChange={(e) => inputChangeHandler(e, setDates)}
                 max={TODAY}
-                min={MAX_DATE_FILTER}
+                min={backDate(30)}
               />
-              <Button disabled={!dates?.startTime || !dates?.endTime}>
-                Select
-              </Button>
             </div>
           )}
         </div>
@@ -383,7 +449,20 @@ const ReportsTable: React.FC<Props> = ({ dates, setDates }) => {
                   | "speed-report"
               ]
             }
-            onRowClick={() => setModalTrue(setModals, "reportDate")}
+            onRowClick={(data: travelReportResponseData | any) => {
+              if (activeNav?.id === "travel-statistics") {
+                setActivePosition({
+                  startPosition: [data?.startLat as any, data?.startLon as any],
+                  endPosition: [data?.endLat as any, data?.endLon as any],
+                });
+                setModalTrue(setModals, "travelHistoryPlayback");
+              }
+            }}
+            isOptions={
+              activeNav?.id === "travel-statistics" ||
+              activeNav?.id === "stop-report"
+            }
+            options={options[activeNav?.id as "travel-statistics"] as any}
           />
         )}
       </section>

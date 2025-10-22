@@ -103,18 +103,21 @@ const ReportStats: React.FC<Props> = ({ dates, setDates }) => {
         title="Total Milage "
         amount={carData?.mileage}
         notAmount
+        noDecoration
       />
 
       <PoliciesSummaryCard
         title="Total Oveespeed(times) "
         amount={carData?.overSpeedCount}
         notAmount
+        noDecoration
       />
 
       <PoliciesSummaryCard
         title="Total Stop(times) "
         amount={carData?.stopCount}
         notAmount
+        noDecoration
       />
     </section>
   );

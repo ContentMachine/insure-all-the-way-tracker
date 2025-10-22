@@ -27,6 +27,7 @@
   background-color: var(--white);
   padding: 1rem;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  z-index: 10;
 }
 
 .dateSection > h4 {
@@ -42,4 +43,45 @@
   padding: 0.75rem 1rem;
   font-size: 1rem;
   border-radius: 5px;
+}
+
+@media screen and (max-width: 767px) {
+  .filterSection {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    flex-direction: column;
+  }
+
+  .filterSection > button:nth-child(2) {
+    padding: 0.5rem 0.75rem;
+    font-size: 12px;
+    margin-left: 0;
+    flex: 1;
+  }
+
+  .dateSection {
+    width: 300px;
+    border-radius: 5px;
+    position: absolute;
+    left: 0;
+    right: auto;
+    top: 120%;
+    background-color: var(--white);
+    padding: 0.5rem;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  }
+
+  .dateSection > h4 {
+    font-family: General Sans;
+    font-size: 16px;
+    margin-bottom: 1rem;
+  }
+
+  .dateSection > button {
+    margin-top: 1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 14px;
+    border-radius: 5px;
+  }
 }

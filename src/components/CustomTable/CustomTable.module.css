@@ -1,4 +1,4 @@
-.container {
+/* .container {
   font-family: General Sans;
   margin-bottom: 3rem;
 }
@@ -212,5 +212,348 @@
 
   .more {
     font-size: 12px;
+  }
+} */
+
+.container {
+  font-family: General Sans;
+  margin-bottom: 3rem;
+}
+
+.header {
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--black);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.header > span {
+  border: 1px solid var(--blue);
+  padding: 0.25rem 0.75rem;
+  border-radius: calc(infinity * 1px);
+  display: inline-block;
+}
+
+.header > div > input {
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  font-family: "General Sans";
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 10px;
+  min-width: 250px;
+  border: 2px solid var(--blue);
+  outline: none;
+}
+
+.header > div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.header > div > div:not(.keySection) {
+  margin: 0;
+  padding: 0;
+  min-width: 250px;
+}
+
+.header > div > div:not(.keySection) > div {
+  padding: 0;
+  max-height: 40px;
+  border: 2px solid var(--blue);
+}
+
+.header > div > div:not(.keySection) > div > div {
+  padding: 0.5rem;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.tableHeaderContainer {
+  display: flex;
+  border-bottom: 1px solid var(--grey);
+  transition: all 0.2s ease-in-out;
+}
+
+.tableBodyContainer {
+  display: flex;
+}
+
+.tableBodyContainer:not(.tableBodyContainer:last-child) {
+  border-bottom: 1px solid var(--grey);
+}
+
+.tableHeader {
+  flex: 1;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--black);
+  padding: 1rem;
+  border-right: 1px solid var(--grey);
+}
+
+.tableBody {
+  flex: 1;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--black);
+  padding: 1rem;
+  border-right: 1px solid var(--grey);
+}
+
+.tableBody:first-child,
+.tableHeader:first-child {
+  flex: 1;
+}
+
+.tableBody:not(.tableBody:first-child),
+.tableHeader:not(.tableHeader:first-child) {
+  flex: 1;
+}
+
+.iconsContainer {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  transition: all 0.9s ease-in-out;
+}
+
+.icons {
+  background-color: var(--white);
+  display: flex;
+  gap: 0.25rem;
+  transition: all 0.9s ease-in-out;
+  border: 2px solid var(--grey);
+  position: relative;
+}
+
+.tableBodyContainer:hover {
+  background-color: var(--grey);
+}
+
+.button,
+.tableBody > span {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  border-radius: calc(infinity * 1px);
+  padding: 0.25rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.button {
+  border: 1px solid var(--blue);
+}
+
+.button:hover:not(.options) {
+  background-color: var(--blue);
+}
+
+.options {
+  position: absolute;
+  min-height: 50px;
+  min-width: 200px;
+  top: 150%;
+  border-radius: 10px;
+  padding: 0.5rem;
+  border: 2px solid var(--grey);
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background: var(--white);
+  z-index: 10;
+}
+
+.options > span {
+  display: block;
+  padding: 0.5rem;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+.options > span:not(.options > span:last-child) {
+  border-bottom: 1px solid var(--grey);
+}
+
+.options > span:hover {
+  background-color: var(--grey);
+}
+
+.paragraph {
+  text-align: center;
+  font-size: 16px;
+  color: var(--black);
+  margin-top: 2rem;
+  color: var(--grey4);
+}
+
+.more {
+  font-size: 14px;
+  color: var(--black);
+  font-weight: 500;
+  background-color: var(--grey);
+  display: inline-block;
+  width: 100%;
+  padding: 1rem 0.5rem;
+  text-align: center;
+}
+
+.late {
+  background-color: #f8494977;
+}
+
+.midLate {
+  background-color: #edd01480;
+}
+
+.early {
+  background-color: var(--grey);
+}
+
+.keySection {
+  position: relative;
+}
+
+.keySection > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.keySection > div:first-child > h4 {
+  font-family: General Sans;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+}
+
+.keySection > div:not(:first-child) {
+  position: absolute;
+  top: 150%;
+  right: 0;
+  min-width: 220px;
+  background-color: var(--white);
+  z-index: 3;
+  animation: appear 0.2s ease-in-out;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tableHeaderContainer {
+    display: flex;
+    border-bottom: 1px solid var(--grey);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .tableBodyContainer {
+    display: flex;
+  }
+
+  .tableBodyContainer:not(.tableBodyContainer:last-child) {
+    border-bottom: 1px solid var(--grey);
+  }
+
+  .tableHeader,
+  .tableBody {
+    flex: 0 0 1;
+    font-size: 12px;
+    padding: 0.5rem;
+    flex-shrink: 0;
+    width: 33%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+  }
+
+  .tableBody:not(.tableBody:last-child) {
+    overflow: hidden;
+  }
+
+  .tableHeader:not(
+      .tableHeader:nth-child(1),
+      .tableHeader:nth-child(2),
+      .tableHeader:last-child
+    ),
+  .tableBody:not(
+      .tableBody:nth-child(1),
+      .tableBody:nth-child(2),
+      .tableBody:last-child
+    ) {
+    display: none;
+    padding: 0rem;
+  }
+
+  .tableBodyContainer:hover {
+    background-color: var(--grey);
+  }
+
+  .options {
+    right: 0;
+  }
+
+  .header > span {
+    font-size: 14px;
+  }
+
+  .header > div > input {
+    font-size: 12px;
+    padding: 6px;
+    min-width: 20px;
+    border-radius: 8px;
+  }
+
+  .options > span {
+    font-size: 12px;
+  }
+
+  .more {
+    font-size: 12px;
+  }
+
+  .iconsContainer {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    transition: all 0.9s ease-in-out;
+    width: 100%;
+  }
+
+  .icons {
+    background-color: var(--white);
+    display: flex;
+    gap: 0.05rem;
+    transition: all 0.9s ease-in-out;
+    border: 2px solid transparent;
+    position: relative;
+  }
+
+  .icons > div {
+    width: 16px;
+    height: 16px;
+  }
+
+  .icons > div > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .header > div > div:not(.keySection) {
+    display: none;
   }
 }

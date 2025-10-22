@@ -1,6 +1,6 @@
 "use client";
 
-import { activeToggler } from "@/helpers/activeHandlers";
+import { activeTogglerRestAll } from "@/helpers/activeHandlers";
 import { Dispatch, SetStateAction, Suspense } from "react";
 import classes from "./SectionsNav.module.css";
 import { navItemTypes } from "@/utilities/types";
@@ -37,7 +37,7 @@ const SectionsNav = ({
                 if (isRoute) {
                   updateSearchParams(id || "section", navItem?.id, "set");
                 }
-                activeToggler(index, navItems, setNavItems);
+                activeTogglerRestAll(index, navItems, setNavItems);
               }}
               className={`${
                 navItem.isActive ? classes.active : classes.inActive

@@ -25,12 +25,13 @@
     gap: 0.5rem;
     overflow-x: hidden;
     overflow-x: auto;
+    flex-wrap: wrap;
   }
 
   .container > div {
     scroll-snap-align: start;
     flex-shrink: 0;
-    width: 70%;
+    width: 50%;
   }
 
   .container::-webkit-scrollbar {

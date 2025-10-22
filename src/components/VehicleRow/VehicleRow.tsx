@@ -191,44 +191,6 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
     }
   };
 
-  const handleGetMileageReport = async () => {
-    setRequestState({
-      isLoading: true,
-      data: null,
-      error: null,
-      id: "mileage-report",
-    });
-
-    try {
-      const response = await getVehicleMileagereport({
-        carId: String(data?.carId) as string,
-        startTime: moment(vehicleDates?.startTime).format(
-          "YYYY-MM-DD:HH:mm:ss"
-        ),
-        endTime: moment(vehicleDates?.endTime).format("YYYY-MM-DD:HH:mm:ss"),
-        token: getToken() as string,
-      });
-
-      if (response) {
-        setRequestState((prevState) => {
-          return {
-            ...prevState,
-            data: response?.data?.data,
-            id: "mileage-report",
-          };
-        });
-        setAllModalsFalse(setModals);
-        setModalTrue(setModals, "report");
-      }
-    } catch (error) {
-      errorFlowFunction(error);
-    } finally {
-      setRequestState((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
-    }
-  };
-
   // Utils
   const options = [
     {

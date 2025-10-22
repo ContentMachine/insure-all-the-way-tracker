@@ -223,7 +223,7 @@ const CustomTable: React.FC<CustomTableProps> = ({
                       <span key={colIndex} className={classes.tableBody}>
                         <span className={`${classes.early}`}>
                           {row[field] !== undefined && row[field] !== null
-                            ? moment(row[field]).format("Do MMM, YYYY")
+                            ? moment(row[field]).format("Do MMM, YYYY, HH:mm")
                             : ""}
                         </span>
                       </span>
