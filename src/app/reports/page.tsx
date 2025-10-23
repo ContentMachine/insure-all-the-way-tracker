@@ -1,3 +1,5 @@
+"use client";
+
 import Loader from "@/components/Loader/Loader";
 import Report from "@/containers/Report/Report";
 import RequireAuth from "@/middleware/RequireAuth/RequireAuth";

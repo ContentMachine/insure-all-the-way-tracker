@@ -1,3 +1,5 @@
+"use client";
+
 export const scrollToTop = () => {
   if (typeof window !== "undefined") {
     window.scrollTo({

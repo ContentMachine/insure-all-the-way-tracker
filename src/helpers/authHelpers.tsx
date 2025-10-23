@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LOCAL_STORAGE_AUTH_KEY,
   LOCAL_STORAGE_USER_ID,

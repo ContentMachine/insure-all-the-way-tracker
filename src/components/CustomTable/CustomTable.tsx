@@ -1,8 +1,7 @@
 "use client";
 
 import ArrowDown from "@/assets/svgIcons/ArrowDown";
-import { capitalize, structureWords } from "@/helpers/capitalize";
-import { TABLE_LENGTH } from "@/utilities/constants";
+import { structureWords } from "@/helpers/capitalize";
 import { LinearProgress } from "@mui/material";
 import Link from "next/link";
 import React, {
@@ -15,7 +14,6 @@ import React, {
 import classes from "./CustomTable.module.css";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import moment from "moment";
-import { formatCurrencyWithoutTrailingDecimals } from "@/helpers/formatAmount";
 
 export type TableOption = {
   text: string;

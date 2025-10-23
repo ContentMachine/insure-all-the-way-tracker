@@ -1,3 +1,5 @@
+"use client";
+
 import CustomTable from "@/components/CustomTable/CustomTable";
 import classes from "./ReportsTable.module.css";
 import {
@@ -17,11 +19,9 @@ import {
   requestType,
   stopReportresponseType,
   travelReportResponseData,
-  vehicleType,
 } from "@/utilities/types";
 import Modal from "@/components/Modal/Modal";
 import VehicleHistoryDateModalBody from "../VehicleHistoryDateModalBody/VehicleHistoryDateModalBody";
-import VehicleReportModalBody from "../VehicleReportModalBody/VehicleReportModalBody";
 import SectionsNav from "@/components/SectionsNav/SectionsNav";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
@@ -30,8 +30,6 @@ import { inputChangeHandler } from "@/helpers/inputChangeHandler";
 import { MAX_DATE_FILTER, TODAY } from "@/utilities/constants";
 import { getToken, getUserId } from "@/helpers/authHelpers";
 import {
-  getUser,
-  getUserVehicles,
   getVehicleMileagereport,
   getVehicleSpeedOrFuelReport,
   getVehicleStopReport,
@@ -40,18 +38,14 @@ import {
 import useError from "@/hooks/useError";
 import useUpdateSearchParams from "@/hooks/useUpdateSearchParams";
 import Loader from "@/components/Loader/Loader";
-import dynamic from "next/dynamic";
-import MapContainer from "../MapContainer/MapContainer";
 import { LatLngExpression } from "leaflet";
 import { backDate } from "@/helpers/dateHandlers";
+import dynamic from "next/dynamic";
+
 // Dynamic imports
-const VehicleHistoryVideoPlaybackModalBody = dynamic(
-  () =>
-    import(
-      "@/containers/VehicleHistoryVideoPlaybackModalBody/VehicleHistoryVideoPlaybackModalBody"
-    ),
-  { ssr: false }
-);
+const MapContainer = dynamic(() => import("../MapContainer/MapContainer"), {
+  ssr: false,
+});
 
 interface Props {
   dates: dateRequestType;

@@ -1,3 +1,5 @@
+"use client";
+
 import Loader from "@/components/Loader/Loader";
 import PoliciesSummaryCard from "@/components/PoliciesSummaryCard/PoliciesSummaryCard";
 import { AuthContext } from "@/context/AuthContext";
