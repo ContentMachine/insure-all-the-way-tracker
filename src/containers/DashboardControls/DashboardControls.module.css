@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 1rem;
   transition: all 0.2s ease-in-out;
-  /* overflow-y: auto; */
 }
 
 .container > div:nth-child(1) {
@@ -142,6 +141,7 @@
     flex-direction: column;
     gap: 1rem;
     transition: all 0.2s ease-in-out;
+    overflow-y: auto;
   }
 
   .container > div:nth-child(1) {

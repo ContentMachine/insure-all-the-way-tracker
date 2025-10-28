@@ -5,7 +5,7 @@ import classes from "./Dashboard.module.css";
 import DashboardControls from "../DashboardControls/DashboardControls";
 import { useEffect, useState } from "react";
 import { requestType, vehicleType } from "@/utilities/types";
-import { getUserVehicles } from "@/services/api";
+import { getUserVehicles, getVehicleDataAndStatus } from "@/services/api";
 import useError from "@/hooks/useError";
 import ArrowForward from "@/assets/svgIcons/ArrowForward";
 import dynamic from "next/dynamic";
@@ -30,44 +30,85 @@ const Dashboard = () => {
   // Hooks
   const { errorFlowFunction } = useError();
 
-  // Helper
-  const handleGetUserVehicles = async () => {
+  const handleFetchAllVehicleData = async () => {
     setRequestState({ isLoading: true, data: null, error: null });
+
     try {
-      const response = await getUserVehicles({
+      const vehiclesResponse = await getUserVehicles({
         UserId: getUserId() as string,
         token: getToken() as string,
       });
 
-      setRequestState((prevState) => {
-        return { ...prevState, data: response?.data?.data };
-      });
-      setVehicleState(
-        response?.data?.data?.map((data, i) => {
-          if (i === 0) {
-            return { ...data, isActive: true };
-          }
-          return { ...data, isActive: false };
-        })
-      );
+      const rawVehicles = vehiclesResponse?.data?.data || [];
+      const vehicles = Array.isArray(rawVehicles)
+        ? rawVehicles.filter((v) => v && v.carId)
+        : [];
+
+      const initialVehicles = vehicles.map((v, i) => ({
+        ...v,
+        status: null,
+        hasStatusError: false,
+        isActive: i === 0,
+        isLoadingStatus: true,
+      }));
+
+      setVehicleState(initialVehicles as any);
+      setRequestState({ isLoading: false, data: initialVehicles, error: null });
+
+      for (const vehicle of vehicles) {
+        try {
+          const res = await getVehicleDataAndStatus({
+            carId: String(vehicle.carId),
+            mapType: "2",
+            token: getToken() as string,
+          });
+
+          const status = res?.data?.data || null;
+
+          setVehicleState((prev) =>
+            prev.map((v) =>
+              v.carId === vehicle.carId
+                ? {
+                    ...v,
+                    status: status as any,
+                    isLoadingStatus: false,
+                    hasStatusError: false,
+                  }
+                : v
+            )
+          );
+        } catch (err) {
+          console.warn(`⚠️ Failed to get status for ${vehicle.carId}`, err);
+
+          setVehicleState((prev) =>
+            prev.map((v) =>
+              v.carId === vehicle.carId
+                ? {
+                    ...v,
+                    status: undefined,
+                    isLoadingStatus: false,
+                    hasStatusError: true,
+                  }
+                : v
+            )
+          );
+        }
+      }
     } catch (error) {
       errorFlowFunction(error);
-    } finally {
-      setRequestState((prevState) => {
-        return { ...prevState, isLoading: false };
-      });
+      setRequestState({ isLoading: false, data: null, error });
     }
   };
 
   // Effects
   useEffect(() => {
-    handleGetUserVehicles();
+    handleFetchAllVehicleData();
   }, []);
 
   return (
     <>
       <DashboardLayout className={classes.container} header="Dashboard">
-        <DashboardMapContainer />
+        <DashboardMapContainer vehicles={vehicleState} />
         <DashboardControls
           vehicles={vehicleState}
           setVehicles={setVehicleState}

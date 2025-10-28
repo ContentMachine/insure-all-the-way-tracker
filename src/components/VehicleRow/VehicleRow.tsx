@@ -230,27 +230,33 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (data) {
-      handleGetvehicleStatusInfo();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (data) {
+  //     handleGetvehicleStatusInfo();
+  //   }
+  // }, []);
 
   useEffect(() => {
-    if (data?.isActive) {
+    if (data?.isActive && data?.status) {
+      console.log(
+        "This is a check shaaa",
+        data?.status?.carStatus?.lon,
+        "data?.status?.carStatus?.lon"
+      );
+
       updateConcurrentSearchParams({
         longitude: {
           method: "set",
-          value: vehicleStatusRequestState?.data?.carStatus?.lon,
+          value: String(data?.status?.carStatus?.lon || 0),
         },
 
         latitude: {
           method: "set",
-          value: vehicleStatusRequestState?.data?.carStatus?.lat,
+          value: String(data?.status?.carStatus?.lat || 0),
         },
       });
     }
-  }, [vehicleStatusRequestState?.data, isActive]);
+  }, [data?.status, isActive]);
 
   const handleCloseModalAndResetRequestState = (close?: boolean) => {
     setRequestState({
@@ -277,7 +283,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
           body={
             <VehicleDetailsModalBody
               onClose={() => setAllModalsFalse(setModals)}
-              data={vehicleStatusRequestState?.data as any}
+              data={data?.status as any}
             />
           }
         />
@@ -372,33 +378,20 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
         }}
       >
         <h5>{machineName}</h5>
-        {vehicleStatusRequestState?.isLoading ? (
-          <span className={classes.loader}>
-            <CircularProgress
-              size="1rem"
-              color="inherit"
-              style={{ color: "#a7c7e7" }}
-            />
+
+        <p>
+          <span
+            className={
+              data?.status?.carStatus?.online === 1
+                ? classes.online
+                : classes.offline
+            }
+          ></span>
+          <span>
+            {formatRelativeTime(data?.status?.carStatus?.pointTime as number)}
           </span>
-        ) : (
-          <p>
-            <span
-              className={
-                vehicleStatusRequestState?.data?.carStatus?.online === 1
-                  ? classes.online
-                  : classes.offline
-              }
-            ></span>
-            <span>
-              {formatRelativeTime(
-                vehicleStatusRequestState?.data?.carStatus?.pointTime
-              )}
-            </span>
-          </p>
-        )}
-        {!vehicleStatusRequestState?.isLoading && (
-          <More onClick={() => setShowOptions(true)} />
-        )}
+        </p>
+        <More onClick={() => setShowOptions(true)} />
 
         {showOptions && (
           <div className={classes.moreOptions} ref={optionsRef}>
@@ -411,6 +404,7 @@ const VehicleRow = ({ data, onClick, isActive }: VehicleRowType) => {
                       ? classes.alert
                       : undefined
                   }
+                  key={optionsData?.title}
                 >
                   {optionsData?.title}
                 </span>

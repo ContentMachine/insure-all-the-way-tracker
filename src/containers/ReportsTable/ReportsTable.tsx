@@ -27,7 +27,7 @@ import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import moment from "moment";
 import { inputChangeHandler } from "@/helpers/inputChangeHandler";
-import { MAX_DATE_FILTER, TODAY } from "@/utilities/constants";
+import { TODAY } from "@/utilities/constants";
 import { getToken, getUserId } from "@/helpers/authHelpers";
 import {
   getVehicleMileagereport,

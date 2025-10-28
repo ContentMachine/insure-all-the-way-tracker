@@ -27,7 +27,7 @@ const DashboardControls = ({
   return (
     <>
       <section
-        className={classes.container}
+        className={`${classes.container} hide-scrollbar`}
         style={
           show
             ? {

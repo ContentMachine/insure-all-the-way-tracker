@@ -284,6 +284,9 @@ export type vehicleType = {
   isActive?: boolean;
   id?: string;
   title?: string;
+  status?: vehicleDataWithStatus;
+  isLoadingStatus: boolean, 
+  hasStatusError: boolean, 
 };
 
 export type vehicleStatusRequestBodyType = {
